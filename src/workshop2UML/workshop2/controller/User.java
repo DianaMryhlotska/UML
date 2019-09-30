@@ -1,22 +1,10 @@
 package workshop2UML.workshop2.controller;
 
-import workshop2UML.workshop2.model.ProgramFacade;
-import workshop2UML.workshop2.view.Console;
-<<<<<<< HEAD
 import workshop2UML.workshop2.model.TheSystem;
+import workshop2UML.workshop2.view.Console;
 public class User {
 
     public boolean Start(Console a_view, TheSystem a_session) {
-=======
-
-
-public class User {
-
-
-    public boolean playGame(Console a_view, ProgramFacade a_session) {
->>>>>>> fa73619074b94b98000e3dfe7e9b4eb198f73b7d
-//        a_view.presentInstructions(!a_session.isGameOver() && a_session.getDealerScore() > 0);
-
 
         a_view.collectEvents();
 
