@@ -45,7 +45,10 @@ public class Member {
         this.setName(name);
     }
 
-    public void deleteMember(){}
+    public void deleteMember(Member member){
+
+
+    }
 
     public void changeInfoMember(){}
 

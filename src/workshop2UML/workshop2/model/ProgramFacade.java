@@ -1,11 +1,12 @@
 package workshop2UML.workshop2.model;
 
-public class ProgramFacade {
+
+public class System {
 
     Boat m_boat;
     Member m_member;
 
-    public ProgramFacade() {
+    public System() {
         m_boat = new Boat();
         m_member = new Member();
     }
@@ -13,4 +14,5 @@ public class ProgramFacade {
     public void start() {
         m_member.start();
     }
+
 }
