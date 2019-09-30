@@ -50,11 +50,21 @@ public class Member {
     public void changeInfoMember(){}
 
     public void lookSpecInfo(Member member){
-        int choise;
         Scanner in = new Scanner(System.in);
         System.out.println("What do you want to look? Press 1 - Name, press 2 - PersonalID, press 3 - list of boats");
-
-        if()
+        int choice = in.nextInt();
+        if(choice == 1){
+            System.out.println(this.Name);
+        }
+        if(choice == 2){
+            System.out.println(this.PersonalNumber);
+        }
+        if(choice == 3){
+            System.out.println(this.m_boat);
+        }
+        else{
+            System.out.println(("Please input the right number!"));
+        }
     }
 
     public void registerBoat(Boat boat){
