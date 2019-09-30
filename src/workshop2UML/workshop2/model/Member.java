@@ -24,7 +24,7 @@ public class Member {
         return Name;
     }
 
-    private void setName(String name) {
+    protected void setName(String name) {
         Name = name;
     }
 
@@ -36,7 +36,7 @@ public class Member {
         return MemberId;
     }
 
-    private void setPersonalNumber(String personalNumber) {
+    protected void setPersonalNumber(String personalNumber) {
         PersonalNumber = personalNumber;
     }
 
@@ -52,12 +52,16 @@ public class Member {
         return listOfBoats;
     }
 
-    public void add(Boat boat){
-        listOfBoats.add(boat);
-        System.out.println("" + boat);
+    protected void setListOfBoats(LinkedList<Boat> listOfBoats) {
+        this.listOfBoats = listOfBoats;
     }
 
-    public void changeInfoMember(){}
+    public void addBoat(Boat boat){
+        if (boat==null)
+            throw new IllegalArgumentException("Inexisting boat !");
+
+        listOfBoats.add(boat);
+    }
 
     public void lookSpecInfo(Member member){
         // TODO : Factoriser le scanner, pour le créer qu'une seule fois dans Program
