@@ -3,21 +3,20 @@ package workshop2UML.workshop2.model;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.LinkedList;
-import java.util.Random;
 
 
 public class Member {
     private String Name;
     private String PersonalNumber;
     private int MemberId;
-    private LinkedList<Boat> m_boat;
+    private LinkedList<Boat> listOfBoats;
 
 
     public Member(String name, String personalNumber, int memberId) {
         Name = name;
         PersonalNumber = personalNumber;
         MemberId = memberId;
-        m_boat = new LinkedList<>();
+        listOfBoats = new LinkedList<>();
     }
 
 
@@ -25,7 +24,7 @@ public class Member {
         return Name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         Name = name;
     }
 
@@ -37,16 +36,24 @@ public class Member {
         return MemberId;
     }
 
-    public void setPersonalNumber(String personalNumber) {
+    private void setPersonalNumber(String personalNumber) {
         PersonalNumber = personalNumber;
     }
 
-    public void setMemberId(int memberId) {
+    private void setMemberId(int memberId) {
         MemberId = memberId;
     }
 
+    public int getNumberOfBoats() {
+        return listOfBoats.size();
+    }
+
+    public LinkedList<Boat> getListOfBoats() {
+        return listOfBoats;
+    }
+
     public void add(Boat boat){
-        m_boat.add(boat);
+        listOfBoats.add(boat);
         System.out.println("" + boat);
     }
 
@@ -64,7 +71,7 @@ public class Member {
             System.out.println(this.PersonalNumber);
         }
         if(choice == 3){
-            System.out.println(this.m_boat);
+            System.out.println(this.listOfBoats);
         }
         else{
             System.out.println(("Please input the right number!"));
@@ -73,16 +80,16 @@ public class Member {
 
     public void registerBoat(Boat boat){
         // TODO : Insérer des vérifications (pour être sûr qu'on fasse un ajout/retrait valide)
-        this.m_boat.add(boat);
+        this.listOfBoats.add(boat);
     }
 
     public void deleteBoat(Boat boat){
-        this.m_boat.remove(boat);
+        this.listOfBoats.remove(boat);
     }
 
 
     public void showInfo(){
-        System.out.println("Name" + this.Name + "Boats:" + this.m_boat);
+        System.out.println("Name" + this.Name + "Boats:" + this.listOfBoats);
     }
 
     @Override
@@ -93,11 +100,11 @@ public class Member {
         return MemberId == member.MemberId &&
                 Name.equals(member.Name) &&
                 PersonalNumber.equals(member.PersonalNumber) &&
-                m_boat.equals(member.m_boat);
+                listOfBoats.equals(member.listOfBoats);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Name, PersonalNumber, MemberId, m_boat);
+        return Objects.hash(Name, PersonalNumber, MemberId, listOfBoats);
     }
 }
