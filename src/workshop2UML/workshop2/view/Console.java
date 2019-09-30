@@ -91,11 +91,14 @@ public class Console {
 
     public void printVerboseList (List<Member> membersList) {
         for (Member member : membersList) {
-            System.out.println("Member " + member.getMemberId() + " : " + member.getName() + " (Personnal number: " +
-                    member.getPersonalNumber() + "). " + member.getNumberOfBoats() + "boats owned :");
-            for (Boat boat : member.getListOfBoats())
-                System.out.println(boat.toString());
+            printMemberInformations(member);
         }
     }
 
+    public void printMemberInformations (Member member) {
+        System.out.println("Member " + member.getMemberId() + " : " + member.getName() + " (Personnal number: " +
+                member.getPersonalNumber() + "). " + member.getNumberOfBoats() + "boats owned :");
+        for (Boat boat : member.getListOfBoats())
+            System.out.println(boat.toString());
+    }
 }
