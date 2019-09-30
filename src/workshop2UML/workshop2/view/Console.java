@@ -1,5 +1,9 @@
 package workshop2UML.workshop2.view;
 
+import workshop2UML.workshop2.model.Member;
+
+import java.util.Scanner;
+
 public class Console {
 
     private int m_input;
@@ -59,4 +63,22 @@ public class Console {
     public boolean wantsToQuit() {
         return m_input == 'q';
     }
+
+    public String inputName() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter your name:");
+        String name = scanner.nextLine();
+        System.out.println("Hallo, \"" + str + "\" :)");
+        return name;
+    }
+
+    public String inputPesonalNum() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please personal number:");
+        String personalNum = scanner.nextLine();
+        System.out.println("Thanks, we have your personal number now");
+        return personalNum;
+    }
+
+
 }
