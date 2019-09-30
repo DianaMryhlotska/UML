@@ -1,9 +1,13 @@
 package workshop2UML.workshop2.controller;
 
+import workshop2UML.workshop2.model.ProgramFacade;
+import workshop2UML.workshop2.view.Console;
+
+
 public class User {
 
 
-    public boolean playGame(workshop2UML.workshop2.view.Console a_view, workshop2UML.workshop2.model.ProgramFacade a_session) {
+    public boolean playGame(Console a_view, ProgramFacade a_session) {
 //        a_view.presentInstructions(!a_session.isGameOver() && a_session.getDealerScore() > 0);
 
 
