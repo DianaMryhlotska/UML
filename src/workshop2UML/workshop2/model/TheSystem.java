@@ -14,7 +14,7 @@ public class TheSystem {
         m_member.start();
     }
 
-    public Member createNewMember(String name, String personalNum){
+    public Member createNewMember(String name, String personalNum) {
         m_member.createMember(name, personalNum);
     }
 
