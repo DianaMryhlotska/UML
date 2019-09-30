@@ -68,7 +68,7 @@ public class Console {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter your name:");
         String name = scanner.nextLine();
-        System.out.println("Hallo, \"" + str + "\" :)");
+        System.out.println("Hallo, \"" + name + "\" :)");
         return name;
     }
 
