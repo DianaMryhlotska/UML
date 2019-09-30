@@ -1,10 +1,13 @@
 package workshop2UML.workshop2.controller;
 
-import workshop2UML.workshop2.model.TheSystem;
 import workshop2UML.workshop2.view.Console;
+
+// TODO : Controls interactions between Models and View !
+// TODO : Review all !
+
 public class User {
 
-    public boolean Start(Console a_view, TheSystem a_session) {
+    public boolean Start(Console a_view, ClubSystem a_session) {
 
         a_view.collectEvents();
 
