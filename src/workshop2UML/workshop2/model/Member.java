@@ -7,13 +7,15 @@ import java.util.Random;
 
 public class Member {
     private String Name;
-    private int PersonalNumber;
+    private String PersonalNumber;
+    private int MemberId;
     LinkedList<Boat> m_boat;
 
 
-    public Member(String name, int personalNumber) {
+    public Member(String name, String personalNumber, int memberId) {
         Name = name;
         PersonalNumber = personalNumber;
+        MemberId = memberId;
         m_boat = new LinkedList<>();
     }
 
@@ -26,12 +28,20 @@ public class Member {
         Name = name;
     }
 
-    public int getPersonalNumber() {
+    public String getPersonalNumber() {
         return PersonalNumber;
     }
 
-    public void setPersonalNumber(int personalNumber) {
+    public int getMemberId() {
+        return MemberId;
+    }
+
+    public void setPersonalNumber(String personalNumber) {
         PersonalNumber = personalNumber;
+    }
+
+    public void setMemberId(int memberId) {
+        MemberId = memberId;
     }
 
     public void add(Boat boat){
@@ -39,9 +49,10 @@ public class Member {
         System.out.println("" + boat);
     }
 
-    public void createNewMember(String name){
+    public void createMember(String name, String personalNum){
         Random rand = new Random();
-        this.setPersonalNumber(rand.nextInt(99999));
+        this.setMemberId(rand.nextInt(99999));
+        this.setPersonalNumber(personalNum);
         this.setName(name);
     }
 

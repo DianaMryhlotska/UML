@@ -1,19 +1,32 @@
 package workshop2UML.workshop2;
 
-import workshop2UML.workshop2.model.System;
+<<<<<<< HEAD
+import workshop2UML.workshop2.model.TheSystem;
 import workshop2UML.workshop2.view.Console;
 import workshop2UML.workshop2.controller.User;
+=======
+import workshop2UML.workshop2.model.Boat;
+import workshop2UML.workshop2.model.Member;
+>>>>>>> fa73619074b94b98000e3dfe7e9b4eb198f73b7d
 
+import java.util.Scanner;
 
 public class Program {
 
     public static void main(String[] args) {
+<<<<<<< HEAD
 
-        System session = new System();
+        TheSystem session = new TheSystem();
         Console v = new Console();
         User c = new User();
 
         while(c.Start(v, session));
+=======
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please type a sentence :");
+        String str = scanner.nextLine();
+        System.out.println("You write \"" + str + "\", right ? :)");
+>>>>>>> fa73619074b94b98000e3dfe7e9b4eb198f73b7d
 
         /*Member member = new Member("Name1", 23);
         Member member2 = new Member("wd1", 43);
@@ -24,6 +37,7 @@ public class Program {
         member.add(boat1);
         member2.add(boat3);
         member2.add(boat5);
+
 
         member.showInfo();
         member2.showInfo();*/
