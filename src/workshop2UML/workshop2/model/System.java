@@ -1,6 +1,5 @@
 package workshop2UML.workshop2.model;
 
-
 public class System {
 
     Boat m_boat;
