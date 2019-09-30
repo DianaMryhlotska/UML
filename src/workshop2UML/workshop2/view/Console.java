@@ -1,7 +1,9 @@
 package workshop2UML.workshop2.view;
 
+import workshop2UML.workshop2.model.Boat;
 import workshop2UML.workshop2.model.Member;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Console {
@@ -80,5 +82,20 @@ public class Console {
         return personalNum;
     }
 
+    public void printCompactList (List<Member> membersList) {
+        for (Member member : membersList) {
+            System.out.println("Member " + member.getMemberId() + "(" + member.getName() + ") : "
+                    + member.getNumberOfBoats() + "boats owned");
+        }
+    }
+
+    public void printVerboseList (List<Member> membersList) {
+        for (Member member : membersList) {
+            System.out.println("Member " + member.getMemberId() + " : " + member.getName() + " (Personnal number: " +
+                    member.getPersonalNumber() + "). " + member.getNumberOfBoats() + "boats owned :");
+            for (Boat boat : member.getListOfBoats())
+                System.out.println(boat.toString());
+        }
+    }
 
 }
