@@ -1,17 +1,19 @@
 package workshop2UML.workshop2;
 
-import workshop2UML.workshop2.model.Boat;
-import workshop2UML.workshop2.model.Member;
+import workshop2UML.workshop2.model.System;
+import workshop2UML.workshop2.view.Console;
+import workshop2UML.workshop2.controller.User;
 
-import java.util.Scanner;
 
 public class Program {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please type a sentence :");
-        String str = scanner.nextLine();
-        System.out.println("You write \"" + str + "\", right ? :)");
+
+        System session = new System();
+        Console v = new Console();
+        User c = new User();
+
+        while(c.Start(v, session));
 
         /*Member member = new Member("Name1", 23);
         Member member2 = new Member("wd1", 43);
@@ -22,7 +24,6 @@ public class Program {
         member.add(boat1);
         member2.add(boat3);
         member2.add(boat5);
-
 
         member.showInfo();
         member2.showInfo();*/
