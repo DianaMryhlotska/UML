@@ -1,6 +1,6 @@
 package workshop2UML.workshop2;
 
-import workshop2UML.workshop2.model.System;
+import workshop2UML.workshop2.model.TheSystem;
 import workshop2UML.workshop2.view.Console;
 import workshop2UML.workshop2.controller.User;
 
@@ -9,7 +9,7 @@ public class Program {
 
     public static void main(String[] args) {
 
-        System session = new System();
+        TheSystem session = new TheSystem();
         Console v = new Console();
         User c = new User();
 
