@@ -1,8 +1,6 @@
 package workshop2UML.workshop2.model;
 
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class Register {
     private HashMap<Integer, Member> register;
@@ -25,6 +23,13 @@ public class Register {
 
     public HashMap<Integer, Member> getRegister() {
         return register;
+    }
+
+    public List<Member> membersList() {
+        ArrayList<Member> listOfMember = new ArrayList<>();
+        for (Map.Entry<Integer, Member> member : register.entrySet())
+            listOfMember.add(member.getValue());
+        return listOfMember;
     }
 
     @Override
