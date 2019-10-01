@@ -20,8 +20,9 @@ public class Register {
         return true;
     }
 
-    public boolean deleteMember(Member member){
-        return register.remove(member.getMemberId(), member);
+    public boolean deleteMember(int memberID){
+        Member member = register.remove(memberID);
+        return member != null;
     }
 
     public HashMap<Integer, Member> getRegister() {
@@ -35,8 +36,7 @@ public class Register {
         return listOfMember;
     }
 
-    public boolean changeMemberInformation (Integer memberID, String name, String personalNumber,
-                                            LinkedList<Boat> listOfBoats) {
+    public boolean changeMemberInformation (Integer memberID, String name, String personalNumber) {
         if (!register.containsKey(memberID))
             System.out.println("Member " + memberID + " does not exist !");
 
@@ -47,9 +47,6 @@ public class Register {
 
         if (personalNumber!=null)
             member.setPersonalNumber(personalNumber);
-
-        if (listOfBoats!=null)
-            member.setListOfBoats(listOfBoats);
 
         return (register.replace(memberID, member)!=null);
     }
