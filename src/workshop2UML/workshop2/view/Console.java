@@ -15,7 +15,7 @@ public class Console {
         this.scanner = new Scanner(System.in);
     }
 
-    protected int getInputChar() {
+    /*protected int getInputChar() {
         try {
             int c = System.in.read();
             while (c == '\r' || c =='\n') {
@@ -85,7 +85,7 @@ public class Console {
         String personalNum = scanner.nextLine();
         System.out.println("Thanks, we have your personal number now");
         return personalNum;
-    }
+    }*/
 
     public void printCompactList (List<Member> membersList) {
         for (Member member : membersList) {
@@ -109,16 +109,16 @@ public class Console {
 
     public int printMenu () {
         int choice=-1;
-            while (choice<0 || choice>7) {
+            while (choice<1 || choice>8) {
                 System.out.println("Welcome in the Jolly Pirate Club ! Please select an action");
-                System.out.println("\tShow all the registered members : press 0");
-                System.out.println("\tAdd a member : press 1");
-                System.out.println("\tDelete a member : press 2");
-                System.out.println("\tSee informations about a member : press 3");
-                System.out.println("\tUpdate informations about a member : press 4");
-                System.out.println("\tRegister a new boat : press 5");
-                System.out.println("\tRemove a registered boat : press 6");
-                System.out.println("\tUpdate informations about a registered boat : press 7");
+                System.out.println("\tShow all the registered members : press 1");
+                System.out.println("\tAdd a member : press 2");
+                System.out.println("\tDelete a member : press 3");
+                System.out.println("\tSee informations about a member : press 4");
+                System.out.println("\tUpdate informations about a member : press 5");
+                System.out.println("\tRegister a new boat : press 6");
+                System.out.println("\tRemove a registered boat : press 7");
+                System.out.println("\tUpdate informations about a registered boat : press 8");
                 choice = scanner.nextInt();
             }
             return choice;
@@ -126,12 +126,56 @@ public class Console {
 
     public int printListMenu() {
         int choice=-1;
-        while (choice<0 || choice>1) {
+        while (choice<1 || choice>2) {
             System.out.println("Please choose the format desired for the member list");
-            System.out.println("Show the compact list (without some informations) : press 0");
-            System.out.println(" Show the verbose list : press 1");
+            System.out.println("Show the compact list (without some informations) : press 1");
+            System.out.println(" Show the verbose list : press 2");
             choice = scanner.nextInt();
         }
         return choice;
+    }
+
+    /*public Member printAddMember() {
+        System.out.println("You choosed to add a member. Please enter his/her name, or 0 to return to the menu");
+    }*/
+
+    public String askForName() {
+        System.out.println("Please enter the name, or 0 to return to the menu");
+        String name = scanner.nextLine();
+
+        if (name.equals("0"))
+            return null;
+        else
+            return name;
+    }
+
+    public String askForPersonnalNumber() {
+        System.out.println("Please enter the personnal number, or 0 to return to the menu");
+        String personnalNumber = scanner.nextLine();
+
+        if (personnalNumber.equals("0"))
+            return null;
+        else
+            return personnalNumber;
+    }
+
+    public int askForMemberID() {
+        System.out.println("Please enter the member ID, or 0 to return to the menu");
+        int ID = scanner.nextInt();
+
+        if (ID==0)
+            return -1;
+        else
+            return ID;
+    }
+
+    public int askForBoatID() {
+        System.out.println("Please enter the boat ID, or 0 to return to the menu");
+        int ID = scanner.nextInt();
+
+        if (ID==0)
+            return -1;
+        else
+            return ID;
     }
 }
