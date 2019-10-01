@@ -1,18 +1,19 @@
 package workshop2UML.workshop2;
 
-import workshop2UML.workshop2.model.TheSystem;
+import workshop2UML.workshop2.model.Register;
 import workshop2UML.workshop2.view.Console;
 import workshop2UML.workshop2.controller.User;
+
+// TODO : Export registry to a text file
+// TODO : An example, to test the software
 
 public class Program {
 
     public static void main(String[] args) {
+        Console console = new Console();
+        Register register = new Register();
+        User user = new User(console, register);
 
-        TheSystem session = new TheSystem();
-        Console v = new Console();
-        User c = new User();
-
-        while(c.Start(v, session));
 
         /*Member member = new Member("Name1", 23);
         Member member2 = new Member("wd1", 43);
