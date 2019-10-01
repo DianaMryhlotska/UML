@@ -1,5 +1,6 @@
 package workshop2UML.workshop2.controller;
 
+import workshop2UML.workshop2.model.Boat;
 import workshop2UML.workshop2.model.Member;
 import workshop2UML.workshop2.model.Register;
 import workshop2UML.workshop2.view.Console;
@@ -17,18 +18,25 @@ public class User {
     }
 
     public boolean startSystem() {
-        int choice=console.printMenu();
+        int choice=1;
 
-        switch (choice) {
-            case 1: listMember();
-            case 2: addMember();
-            case 3:;
-            case 4:;
-            case 5:;
-            case 6:;
-            case 7:;
-            case 8:;
+        while (choice>=1 && choice<=9) {
+            choice=console.printMenu();
+
+            switch (choice) {
+                case 1: listMember();
+                case 2: addMember();
+                case 3: deleteMember();
+                case 4: seeInformationsAboutAMember();
+                case 5: updateMemberInformations();
+                case 6: registerBoat();
+                case 7: deleteBoat();
+                case 8: updateBoatInformations();
+                default: console.informAboutChoice(0);
+            }
         }
+
+        return true;
     }
 
     private void listMember() {
@@ -62,12 +70,48 @@ public class User {
     }
 
     private void updateMemberInformations() {
-        // TODO : Gérer le cas des null si on ne veut pas tout changer
         console.informAboutChoice(5);
         int ID = console.askForMemberID();
+        Member member = register.getMember(ID);
+        console.printMemberInformations(member);
         String name = console.askForName();
         String personnalNumber = console.askForPersonnalNumber();
         register.changeMemberInformation(ID, name, personnalNumber);
+    }
+
+    private void registerBoat() {
+        console.informAboutChoice(6);
+
+        int memberID = console.askForMemberID();
+        Boat.TypeOfBoat type = console.askForTypeOfBoat();
+        double length = console.askForBoatLength();
+
+        register.addNewBoat(memberID, type, length);
+    }
+
+    private void deleteBoat() {
+        console.informAboutChoice(7);
+
+        int memberID = console.askForMemberID();
+        int boatID = console.askForBoatID();
+
+        register.removeBoat(memberID, boatID);
+    }
+
+    private void updateBoatInformations() {
+        console.informAboutChoice(8);
+
+        int memberID = console.askForMemberID();
+        int boatID = console.askForBoatID();
+        Boat.TypeOfBoat type = console.askForTypeOfBoat();
+        double length = console.askForBoatLength();
+
+        Boat boat = register.getMember(memberID).getBoat(boatID);
+        register.removeBoat(memberID, boatID);
+        console.printBoatInformations(memberID, boat);
+        boat.setLength(length);
+        boat.setTypeOfBoat(type);
+        register.getMember(memberID).addBoat(boat);
     }
 
     /*public boolean Start(Console a_view, ClubSystem a_session) {

@@ -3,6 +3,7 @@ package workshop2UML.workshop2.view;
 import workshop2UML.workshop2.model.Boat;
 import workshop2UML.workshop2.model.Member;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Scanner;
 
@@ -107,9 +108,14 @@ public class Console {
             System.out.println(boat.toString());
     }
 
+    public void printBoatInformations (Integer memberID, Boat boat) {
+        System.out.println("Boat " + boat.getID() + "(owns by member " + memberID + ") : " + boat.getTypeOfBoat() +
+                ", length=" + new DecimalFormat("$#.00").format(boat.getLength()) );
+    }
+
     public int printMenu () {
         int choice=-1;
-            while (choice<1 || choice>8) {
+            while (choice<0 || choice>8) {
                 System.out.println("Welcome in the Jolly Pirate Club ! Please select an action");
                 System.out.println("\tShow all the registered members : press 1");
                 System.out.println("\tAdd a member : press 2");
@@ -119,6 +125,7 @@ public class Console {
                 System.out.println("\tRegister a new boat : press 6");
                 System.out.println("\tRemove a registered boat : press 7");
                 System.out.println("\tUpdate informations about a registered boat : press 8");
+                System.out.println("\tPress 0 to exit");
                 choice = scanner.nextInt();
             }
             return choice;
@@ -140,7 +147,7 @@ public class Console {
     }*/
 
     public void informAboutChoice(int choice) {
-        if (choice<1 || choice>8)
+        if (choice<0 || choice>8)
             throw new IllegalCallerException("No choice made yet !");
 
         switch (choice) {
@@ -152,11 +159,15 @@ public class Console {
             case 6: System.out.println("You choose to register a new boat.");
             case 7: System.out.println("You choose to remove a registered boat.");
             case 8: System.out.println("You choose to update informations about a specific boat.");
+            default: System.out.println("You are exiting the system. Goodbye !");
         }
     }
 
+
+    // TODO : Insert a "return" choice for all of the methods above (with '0' ?)
+
     public String askForName() {
-        System.out.println("Please enter the name, or 0 to return to the menu");
+        System.out.println("Please enter the name");
         String name = scanner.nextLine();
 
         if (name.equals("0"))
@@ -166,7 +177,7 @@ public class Console {
     }
 
     public String askForPersonnalNumber() {
-        System.out.println("Please enter the personnal number, or 0 to return to the menu");
+        System.out.println("Please enter the personnal number");
         String personnalNumber = scanner.nextLine();
 
         if (personnalNumber.equals("0"))
@@ -176,7 +187,7 @@ public class Console {
     }
 
     public int askForMemberID() {
-        System.out.println("Please enter the member ID, or 0 to return to the menu");
+        System.out.println("Please enter the member ID");
         int ID = scanner.nextInt();
 
         if (ID==0)
@@ -186,12 +197,43 @@ public class Console {
     }
 
     public int askForBoatID() {
-        System.out.println("Please enter the boat ID, or 0 to return to the menu");
+        System.out.println("Please enter the boat ID");
         int ID = scanner.nextInt();
 
         if (ID==0)
             return -1;
         else
             return ID;
+    }
+
+    public Boat.TypeOfBoat askForTypeOfBoat() {
+        System.out.println("Please select the type of the boat :");
+        System.out.println("For a Sailboat, press 1");
+        System.out.println("For a Motorsailer, press 2");
+        System.out.println("For a Kayak, press 3");
+        System.out.println("For an other type, press 4");
+        int type=-1;
+
+        while (type<1 || type>4) {
+            type = scanner.nextInt();
+        }
+
+        switch (type) {
+            case 1: return Boat.TypeOfBoat.SAILBOAT;
+            case 2: return Boat.TypeOfBoat.MOTORSAILER;
+            case 3: return Boat.TypeOfBoat.KAYAK;
+            case 4: return Boat.TypeOfBoat.OTHER;
+        }
+
+        return null; //never happens
+    }
+
+    public double askForBoatLength() {
+        System.out.println("Please enter the length of the boat (in meters, with decimals) :");
+        double length=-1;
+        while (length<=0 || length >2000) {
+            length = scanner.nextDouble();
+        }
+        return length;
     }
 }

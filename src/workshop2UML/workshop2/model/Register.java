@@ -2,12 +2,10 @@ package workshop2UML.workshop2.model;
 
 import java.util.*;
 
-// TODO : "Change a boat's information"
-// TODO : "Delete a boat"
-
 public class Register {
     private HashMap<Integer, Member> register;
     private int numberOfMembers;
+    private int numberOfBoats;
 
     public boolean createMember(String name, String personalNum){
         Member member = new Member(name, personalNum, numberOfMembers);
@@ -58,15 +56,37 @@ public class Register {
         return register.get(memberID);
     }
 
-    public boolean addNewBoat (Integer memberID, Boat newBoat) {
+    public boolean addNewBoat (Integer memberID, Boat.TypeOfBoat typeOfBoat, double length) {
         if (!register.containsKey(memberID))
             throw new IllegalArgumentException("Member " + memberID + " does not exist yet !");
 
         Member member = register.get(memberID);
 
+        Boat newBoat = new Boat(numberOfBoats, typeOfBoat, length);
+        numberOfBoats++;
         member.addBoat(newBoat);
 
         return (register.replace(memberID, member)!=null);
+    }
+
+    public boolean removeBoat (Integer memberID, Integer boatID) {
+        if (!register.containsKey(memberID))
+            throw new IllegalArgumentException("Member " + memberID + " does not exist yet !");
+
+        Member member = register.get(memberID);
+
+        member.removeBoat(boatID);
+
+        return (register.replace(memberID, member)!=null);
+    }
+
+
+    public int getNumberOfMembers() {
+        return numberOfMembers;
+    }
+
+    public int getNumberOfBoats() {
+        return numberOfBoats;
     }
 
     @Override

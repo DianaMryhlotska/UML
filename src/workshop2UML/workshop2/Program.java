@@ -1,5 +1,6 @@
 package workshop2UML.workshop2;
 
+import workshop2UML.workshop2.model.Register;
 import workshop2UML.workshop2.view.Console;
 import workshop2UML.workshop2.controller.User;
 
@@ -9,13 +10,10 @@ import workshop2UML.workshop2.controller.User;
 public class Program {
 
     public static void main(String[] args) {
-        //ClubSystem session = new ClubSystem();
         Console console = new Console();
-        User user = new User();
+        Register register = new Register();
+        User user = new User(console, register);
 
-
-
-        while(c.Start(v, session));
 
         /*Member member = new Member("Name1", 23);
         Member member2 = new Member("wd1", 43);

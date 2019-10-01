@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.LinkedList;
 
+// TODO : Insert checks about data when we add/remove something
 
 public class Member {
     private String Name;
@@ -56,6 +57,15 @@ public class Member {
         this.listOfBoats = listOfBoats;
     }
 
+    public Boat getBoat(Integer boatID) {
+        for (Boat boat : listOfBoats) {
+            if (boat.getID()==boatID)
+                return boat;
+        }
+
+        return null;
+    }
+
     public void addBoat(Boat boat){
         if (boat==null)
             throw new IllegalArgumentException("Inexisting boat !");
@@ -63,34 +73,14 @@ public class Member {
         listOfBoats.add(boat);
     }
 
-    /*public void lookSpecInfo(Member member){
-        // TODO : Factoriser le scanner, pour le créer qu'une seule fois dans Program
-        Scanner in = new Scanner(System.in);
-        System.out.println("What do you want to look? Press 1 - Name, press 2 - PersonalID, press 3 - list of boats");
-        int choice = in.nextInt();
-        if(choice == 1){
-            System.out.println(this.Name);
-        }
-        if(choice == 2){
-            System.out.println(this.PersonalNumber);
-        }
-        if(choice == 3){
-            System.out.println(this.listOfBoats);
-        }
-        else{
-            System.out.println(("Please input the right number!"));
-        }
-    }*/
+    public boolean removeBoat(Integer boatID) {
+        Boat boat = getBoat(boatID);
 
-    public void registerBoat(Boat boat){
-        // TODO : Insérer des vérifications (pour être sûr qu'on fasse un ajout/retrait valide)
-        this.listOfBoats.add(boat);
+        if (boat!=null)
+            return listOfBoats.remove(getBoat(boatID));
+        else
+            return false;
     }
-
-    public void deleteBoat(Boat boat){
-        this.listOfBoats.remove(boat);
-    }
-
 
 
     @Override
