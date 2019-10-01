@@ -7,6 +7,12 @@ public class Register {
     private int numberOfMembers;
     private int numberOfBoats;
 
+    public Register() {
+        this.register = new HashMap<Integer, Member>();
+        this.numberOfMembers = 1;
+        this.numberOfBoats = 1;
+    }
+
     public boolean createMember(String name, String personalNum){
         Member member = new Member(name, personalNum, numberOfMembers);
 
@@ -82,11 +88,11 @@ public class Register {
 
 
     public int getNumberOfMembers() {
-        return numberOfMembers;
+        return numberOfMembers-1;
     }
 
     public int getNumberOfBoats() {
-        return numberOfBoats;
+        return numberOfBoats-1;
     }
 
     @Override

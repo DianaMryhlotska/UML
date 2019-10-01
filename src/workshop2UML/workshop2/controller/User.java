@@ -25,14 +25,23 @@ public class User {
 
             switch (choice) {
                 case 1: listMember();
+                    break;
                 case 2: addMember();
+                    break;
                 case 3: deleteMember();
+                    break;
                 case 4: seeInformationsAboutAMember();
+                    break;
                 case 5: updateMemberInformations();
+                    break;
                 case 6: registerBoat();
+                    break;
                 case 7: deleteBoat();
+                    break;
                 case 8: updateBoatInformations();
+                    break;
                 default: console.informAboutChoice(0);
+                    break;
             }
         }
 
