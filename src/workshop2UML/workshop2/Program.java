@@ -14,6 +14,8 @@ public class Program {
         Register register = new Register();
         User user = new User(console, register);
 
+        user.startSystem();
+
 
         /*Member member = new Member("Name1", 23);
         Member member2 = new Member("wd1", 43);

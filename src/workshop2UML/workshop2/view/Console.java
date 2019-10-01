@@ -91,19 +91,21 @@ public class Console {
     public void printCompactList (List<Member> membersList) {
         for (Member member : membersList) {
             System.out.println("Member " + member.getMemberId() + "(" + member.getName() + ") : "
-                    + member.getNumberOfBoats() + "boats owned");
+                    + member.getNumberOfBoats() + " boats owned");
         }
+        System.out.println("\n");
     }
 
     public void printVerboseList (List<Member> membersList) {
         for (Member member : membersList) {
             printMemberInformations(member);
         }
+        System.out.println("\n");
     }
 
     public void printMemberInformations (Member member) {
         System.out.println("Member " + member.getMemberId() + " : " + member.getName() + " (Personnal number: " +
-                member.getPersonalNumber() + "). " + member.getNumberOfBoats() + "boats owned :");
+                member.getPersonalNumber() + "). " + member.getNumberOfBoats() + " boats owned :");
         for (Boat boat : member.getListOfBoats())
             System.out.println(boat.toString());
     }
@@ -115,6 +117,7 @@ public class Console {
 
     public int printMenu () {
         int choice=-1;
+        System.out.println("\n");
             while (choice<0 || choice>8) {
                 System.out.println("Welcome in the Jolly Pirate Club ! Please select an action");
                 System.out.println("\tShow all the registered members : press 1");
@@ -127,6 +130,7 @@ public class Console {
                 System.out.println("\tUpdate informations about a registered boat : press 8");
                 System.out.println("\tPress 0 to exit");
                 choice = scanner.nextInt();
+                scanner.nextLine();
             }
             return choice;
     }
@@ -138,6 +142,7 @@ public class Console {
             System.out.println("Show the compact list (without some informations) : press 1");
             System.out.println(" Show the verbose list : press 2");
             choice = scanner.nextInt();
+            scanner.nextLine();
         }
         return choice;
     }
@@ -149,17 +154,26 @@ public class Console {
     public void informAboutChoice(int choice) {
         if (choice<0 || choice>8)
             throw new IllegalCallerException("No choice made yet !");
-
+        System.out.println("\n");
         switch (choice) {
             case 1: System.out.println("You choose to see the members list.");
+                break;
             case 2: System.out.println("You choose to add a member.");
+                break;
             case 3: System.out.println("You choose to delete a member.");
+                break;
             case 4: System.out.println("You choose to see informations about a specific member.");
+                break;
             case 5: System.out.println("You choose to update informations about a specific member.");
+                break;
             case 6: System.out.println("You choose to register a new boat.");
+                break;
             case 7: System.out.println("You choose to remove a registered boat.");
+                break;
             case 8: System.out.println("You choose to update informations about a specific boat.");
+                break;
             default: System.out.println("You are exiting the system. Goodbye !");
+                break;
         }
     }
 
@@ -189,6 +203,7 @@ public class Console {
     public int askForMemberID() {
         System.out.println("Please enter the member ID");
         int ID = scanner.nextInt();
+        scanner.nextLine();
 
         if (ID==0)
             return -1;
@@ -199,6 +214,7 @@ public class Console {
     public int askForBoatID() {
         System.out.println("Please enter the boat ID");
         int ID = scanner.nextInt();
+        scanner.nextLine();
 
         if (ID==0)
             return -1;
@@ -216,6 +232,7 @@ public class Console {
 
         while (type<1 || type>4) {
             type = scanner.nextInt();
+            scanner.nextLine();
         }
 
         switch (type) {
@@ -223,9 +240,8 @@ public class Console {
             case 2: return Boat.TypeOfBoat.MOTORSAILER;
             case 3: return Boat.TypeOfBoat.KAYAK;
             case 4: return Boat.TypeOfBoat.OTHER;
+            default: return null;
         }
-
-        return null; //never happens
     }
 
     public double askForBoatLength() {
