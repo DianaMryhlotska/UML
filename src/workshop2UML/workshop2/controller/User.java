@@ -18,11 +18,10 @@ public class User {
     }
 
     public boolean startSystem() {
-        int choice=1;
-
-        while (choice>=1 && choice<=9) {
+        int choice;
+        do {
             choice=console.printMenu();
-
+            // TODO : Find why you have to ask twice to exit !
             switch (choice) {
                 case 1: listMember();
                     break;
@@ -40,10 +39,12 @@ public class User {
                     break;
                 case 8: updateBoatInformations();
                     break;
-                default: console.informAboutChoice(0);
+                case 0: console.informAboutChoice(0);
                     break;
+                default:
+                    return false;
             }
-        }
+        } while (choice>=1 && choice<=9);
 
         return true;
     }
