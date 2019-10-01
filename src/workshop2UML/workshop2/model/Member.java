@@ -63,7 +63,7 @@ public class Member {
         listOfBoats.add(boat);
     }
 
-    public void lookSpecInfo(Member member){
+    /*public void lookSpecInfo(Member member){
         // TODO : Factoriser le scanner, pour le créer qu'une seule fois dans Program
         Scanner in = new Scanner(System.in);
         System.out.println("What do you want to look? Press 1 - Name, press 2 - PersonalID, press 3 - list of boats");
@@ -80,7 +80,7 @@ public class Member {
         else{
             System.out.println(("Please input the right number!"));
         }
-    }
+    }*/
 
     public void registerBoat(Boat boat){
         // TODO : Insérer des vérifications (pour être sûr qu'on fasse un ajout/retrait valide)
@@ -92,9 +92,6 @@ public class Member {
     }
 
 
-    public void showInfo(){
-        System.out.println("Name" + this.Name + "Boats:" + this.listOfBoats);
-    }
 
     @Override
     public boolean equals(Object o) {
