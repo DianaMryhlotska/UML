@@ -7,8 +7,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Console {
+    private Scanner scanner;
 
     private int m_input;
+
+    public Console() {
+        this.scanner = new Scanner(System.in);
+    }
 
     protected int getInputChar() {
         try {
@@ -100,5 +105,33 @@ public class Console {
                 member.getPersonalNumber() + "). " + member.getNumberOfBoats() + "boats owned :");
         for (Boat boat : member.getListOfBoats())
             System.out.println(boat.toString());
+    }
+
+    public int printMenu () {
+        int choice=-1;
+            while (choice<0 || choice>7) {
+                System.out.println("Welcome in the Jolly Pirate Club ! Please select an action");
+                System.out.println("\tShow all the registered members : press 0");
+                System.out.println("\tAdd a member : press 1");
+                System.out.println("\tDelete a member : press 2");
+                System.out.println("\tSee informations about a member : press 3");
+                System.out.println("\tUpdate informations about a member : press 4");
+                System.out.println("\tRegister a new boat : press 5");
+                System.out.println("\tRemove a registered boat : press 6");
+                System.out.println("\tUpdate informations about a registered boat : press 7");
+                choice = scanner.nextInt();
+            }
+            return choice;
+    }
+
+    public int printListMenu() {
+        int choice=-1;
+        while (choice<0 || choice>1) {
+            System.out.println("Please choose the format desired for the member list");
+            System.out.println("Show the compact list (without some informations) : press 0");
+            System.out.println(" Show the verbose list : press 1");
+            choice = scanner.nextInt();
+        }
+        return choice;
     }
 }
