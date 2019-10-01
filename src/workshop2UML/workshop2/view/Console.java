@@ -139,6 +139,22 @@ public class Console {
         System.out.println("You choosed to add a member. Please enter his/her name, or 0 to return to the menu");
     }*/
 
+    public void informAboutChoice(int choice) {
+        if (choice<1 || choice>8)
+            throw new IllegalCallerException("No choice made yet !");
+
+        switch (choice) {
+            case 1: System.out.println("You choose to see the members list.");
+            case 2: System.out.println("You choose to add a member.");
+            case 3: System.out.println("You choose to delete a member.");
+            case 4: System.out.println("You choose to see informations about a specific member.");
+            case 5: System.out.println("You choose to update informations about a specific member.");
+            case 6: System.out.println("You choose to register a new boat.");
+            case 7: System.out.println("You choose to remove a registered boat.");
+            case 8: System.out.println("You choose to update informations about a specific boat.");
+        }
+    }
+
     public String askForName() {
         System.out.println("Please enter the name, or 0 to return to the menu");
         String name = scanner.nextLine();
