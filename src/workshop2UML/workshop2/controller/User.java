@@ -1,5 +1,6 @@
 package workshop2UML.workshop2.controller;
 
+import workshop2UML.workshop2.model.Member;
 import workshop2UML.workshop2.model.Register;
 import workshop2UML.workshop2.view.Console;
 
@@ -20,7 +21,7 @@ public class User {
 
         switch (choice) {
             case 1: listMember();
-            case 2:;
+            case 2: addMember();
             case 3:;
             case 4:;
             case 5:;
@@ -30,12 +31,43 @@ public class User {
         }
     }
 
-    public void listMember() {
+    private void listMember() {
+        console.informAboutChoice(1);
         int choice = console.printListMenu();
         if (choice==1)
             console.printCompactList(register.membersList());
         else
             console.printVerboseList(register.membersList());
+        startSystem();
+    }
+
+    private void addMember() {
+        console.informAboutChoice(2);
+        String name = console.askForName();
+        String personnalNumber = console.askForPersonnalNumber();
+        register.createMember(name, personnalNumber);
+    }
+
+    private void deleteMember() {
+        console.informAboutChoice(3);
+        int ID = console.askForMemberID();
+        register.deleteMember(ID);
+    }
+
+    private void seeInformationsAboutAMember() {
+        console.informAboutChoice(4);
+        int ID = console.askForMemberID();
+        Member member = register.getMember(ID);
+        console.printMemberInformations(member);
+    }
+
+    private void updateMemberInformations() {
+        // TODO : Gérer le cas des null si on ne veut pas tout changer
+        console.informAboutChoice(5);
+        int ID = console.askForMemberID();
+        String name = console.askForName();
+        String personnalNumber = console.askForPersonnalNumber();
+        register.changeMemberInformation(ID, name, personnalNumber);
     }
 
     /*public boolean Start(Console a_view, ClubSystem a_session) {
@@ -52,4 +84,13 @@ public class User {
 
         return true;
     }*/
+
+    private void safeExit(Object object) {
+        if (object==null)
+            startSystem();
+
+        int o = (int) object;
+        if (o==-1)
+            startSystem();
+    }
 }
