@@ -49,6 +49,10 @@ public class User {
         return true;
     }
 
+
+
+
+
     private void listMember() {
         console.informAboutChoice(1);
         int choice = console.printListMenu();
