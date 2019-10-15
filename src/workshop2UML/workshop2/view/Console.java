@@ -21,25 +21,6 @@ public class Console {
             int c = System.in.read();
             while (c == '\r' || c =='\n') {
                 c =
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 System.in.read();
             }
             return c;

@@ -50,9 +50,6 @@ public class User {
     }
 
 
-
-
-
     private void listMember() {
         console.informAboutChoice(1);
         int choice = console.printListMenu();
