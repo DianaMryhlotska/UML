@@ -7,7 +7,7 @@ import workshop2UML.workshop2.controller.User;
 // TODO : Export registry to a text file
 // TODO : An example, to test the software
 
-public class Program {
+public class    Program {
 
     public static void main(String[] args) {
         Console console = new Console();
