@@ -8,14 +8,14 @@ import java.util.LinkedList;
 
 public class Member {
     private String Name;
-    private String PersonalNumber;
+    private String PersonnalNumber;
     private int MemberId;
     private LinkedList<Boat> listOfBoats;
 
 
     public Member(String name, String personalNumber, int memberId) {
         Name = name;
-        PersonalNumber = personalNumber;
+        PersonnalNumber = personalNumber;
         MemberId = memberId;
         listOfBoats = new LinkedList<>();
     }
@@ -29,16 +29,16 @@ public class Member {
         Name = name;
     }
 
-    public String getPersonalNumber() {
-        return PersonalNumber;
+    public String getPersonnalNumber() {
+        return PersonnalNumber;
     }
 
     public int getMemberId() {
         return MemberId;
     }
 
-    protected void setPersonalNumber(String personalNumber) {
-        PersonalNumber = personalNumber;
+    protected void setPersonnalNumber(String personalNumber) {
+        PersonnalNumber = personalNumber;
     }
 
     private void setMemberId(int memberId) {
@@ -90,12 +90,12 @@ public class Member {
         Member member = (Member) o;
         return MemberId == member.MemberId &&
                 Name.equals(member.Name) &&
-                PersonalNumber.equals(member.PersonalNumber) &&
+                PersonnalNumber.equals(member.PersonnalNumber) &&
                 listOfBoats.equals(member.listOfBoats);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Name, PersonalNumber, MemberId, listOfBoats);
+        return Objects.hash(Name, PersonnalNumber, MemberId, listOfBoats);
     }
 }

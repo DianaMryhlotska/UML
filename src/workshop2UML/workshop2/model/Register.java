@@ -50,7 +50,7 @@ public class Register {
             member.setName(name);
 
         if (personalNumber!=null)
-            member.setPersonalNumber(personalNumber);
+            member.setPersonnalNumber(personalNumber);
 
         return (register.replace(memberID, member)!=null);
     }

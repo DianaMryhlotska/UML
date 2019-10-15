@@ -106,7 +106,7 @@ public class Console {
 
     public void printMemberInformations (Member member) {
         System.out.println("Member " + member.getMemberId() + " : " + member.getName() + " (Personnal number: " +
-                member.getPersonalNumber() + "). " + member.getNumberOfBoats() + " boats owned :");
+                member.getPersonnalNumber() + "). " + member.getNumberOfBoats() + " boats owned :");
         for (Boat boat : member.getListOfBoats())
             System.out.println(boat.toString());
     }
