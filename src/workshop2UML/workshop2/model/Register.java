@@ -13,15 +13,27 @@ public class Register {
         this.numberOfBoats = 1;
     }
 
-    public boolean createMember(String name, String personalNum){
+    //public boolean checkPersonalNumber(String personalNum){
+      //  if (register.containsKey(personalNum))
+        //    return false;
+       // else
+         //   return true;
+    //}
+
+    public boolean createMember(String name, String personalNum) {
         Member member = new Member(name, personalNum, numberOfMembers);
 
         if (register.containsValue(member))
             return false;
 
-        register.put(numberOfMembers, member);
-        numberOfMembers++;
+      //  if (checkPersonalNumber(personalNum) == true) {
+            register.put(numberOfMembers, member);
+            numberOfMembers++;
+          //  return true;
+      //  }
+
         return true;
+
     }
 
     public boolean deleteMember(int memberID){

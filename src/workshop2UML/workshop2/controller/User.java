@@ -63,7 +63,7 @@ public class User {
     private void addMember() {
         console.informAboutChoice(2);
         String name = console.askForName();
-        String personnalNumber = console.askForPersonnalNumber();
+        String personnalNumber = console.askForPersonalNumber();
         register.createMember(name, personnalNumber);
     }
 
@@ -86,7 +86,7 @@ public class User {
         Member member = register.getMember(ID);
         console.printMemberInformations(member);
         String name = console.askForName();
-        String personnalNumber = console.askForPersonnalNumber();
+        String personnalNumber = console.askForPersonalNumber();
         register.changeMemberInformation(ID, name, personnalNumber);
     }
 

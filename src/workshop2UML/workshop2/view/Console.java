@@ -105,7 +105,7 @@ public class Console {
     }
 
     public void printMemberInformations (Member member) {
-        System.out.println("Member " + member.getMemberId() + " : " + member.getName() + " (Personnal number: " +
+        System.out.println("Member " + member.getMemberId() + " : " + member.getName() + " (Personal number: " +
                 member.getPersonalNumber() + "). " + member.getNumberOfBoats() + " boats owned :");
         for (Boat boat : member.getListOfBoats())
             System.out.println(boat.toString());
@@ -174,8 +174,9 @@ public class Console {
             case 8: System.out.println("You choose to update informations about a specific boat.");
                 break;
             default: System.out.println("You are exiting the system. Goodbye !");
-                break;
+                return;
         }
+
     }
 
 
@@ -191,14 +192,18 @@ public class Console {
             return name;
     }
 
-    public String askForPersonnalNumber() {
-        System.out.println("Please enter the personnal number");
-        String personnalNumber = scanner.nextLine();
+    public String askForPersonalNumber() {
+        System.out.println("Please enter the personal number");
+        String personalNumber = scanner.nextLine();
 
-        if (personnalNumber.equals("0"))
+        if (personalNumber.equals("0"))
             return null;
         else
-            return personnalNumber;
+            if (personalNumber.length() == 12)
+                return personalNumber;
+            else
+                System.out.print("Incorrect! ");
+                return askForPersonalNumber();
     }
 
     public int askForMemberID() {

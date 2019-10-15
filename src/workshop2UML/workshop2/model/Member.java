@@ -38,7 +38,7 @@ public class Member {
     }
 
     protected void setPersonalNumber(String personalNumber) {
-        PersonalNumber = personalNumber;
+            PersonalNumber = personalNumber;
     }
 
     private void setMemberId(int memberId) {
