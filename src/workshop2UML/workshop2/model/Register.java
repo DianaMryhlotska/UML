@@ -25,15 +25,15 @@ public class Register {
         return false;
     }
 
-    public boolean createMember(String name, String personalNum){
+    public int createMember(String name, String personalNum){
         Member member = new Member(name, personalNum, numberOfMembers);
 
         if (register.containsValue(member))
-            return false;
+            return -1;
 
         register.put(numberOfMembers, member);
         numberOfMembers++;
-        return true;
+        return numberOfMembers-1;
     }
 
     public boolean deleteMember(int memberID){
@@ -74,7 +74,7 @@ public class Register {
         return register.get(memberID);
     }
 
-    public boolean addNewBoat (Integer memberID, Boat.TypeOfBoat typeOfBoat, double length) {
+    public boolean addNewBoat (Integer memberID, TypeOfBoat typeOfBoat, double length) {
         if (!register.containsKey(memberID))
             throw new IllegalArgumentException("Member " + memberID + " does not exist yet !");
 

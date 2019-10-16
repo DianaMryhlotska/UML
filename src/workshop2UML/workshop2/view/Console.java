@@ -2,9 +2,11 @@ package workshop2UML.workshop2.view;
 
 import workshop2UML.workshop2.model.Boat;
 import workshop2UML.workshop2.model.Member;
+import workshop2UML.workshop2.model.TypeOfBoat;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Console {
@@ -14,80 +16,15 @@ public class Console {
 
     public Console() {
         this.scanner = new Scanner(System.in);
+        scanner.useLocale(Locale.US);
     }
 
-    /*protected int getInputChar() {
-        try {
-            int c = System.in.read();
-            while (c == '\r' || c =='\n') {
-                c =
-                System.in.read();
-            }
-            return c;
-        } catch (java.io.IOException e) {
-            System.out.println("" + e);
-            return 0;
+    public void printMembersID (List<Member> membersList) {
+        for (Member member : membersList) {
+            System.out.println("Member " + member.getMemberId() + "(" + member.getName() + ")");
         }
+        System.out.println("\n");
     }
-
-    public void presentInstructions(boolean a_ProgramStarted) {
-        System.out.println("=======================================================");
-        System.out.println("Welcome to the yacht club “The jolly pirate”");
-        if (a_ProgramStarted) {
-            System.out.println("To create a member press c, " +
-                    "\nto delete member press d, " +
-                    "\nto show a compact list press l\n" +
-                    "to show a verbose list of members press v\n" +
-                    "to quit press q");
-        } else {
-            System.out.println("p to start, q to quit");
-        }
-        System.out.println("-------------------------------------------------------");
-    }
-
-    public void collectEvents() {
-        m_input = getInputChar();
-    }
-
-    public boolean wantsToStart() {
-        return m_input == 'p';
-    }
-
-    public boolean wantsToCreateMember() {
-        return m_input == 'c';
-    }
-
-    public boolean wantsToDeleteMember() {
-        return m_input == 'd';
-    }
-
-    public boolean wantsToShowCompact() {
-        return m_input == 'l';
-    }
-
-    public boolean wantsToShowVerbose() {
-        return m_input == 'v';
-    }
-
-    public boolean wantsToQuit() {
-        return m_input == 'q';
-    }
-
-    public String inputName() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter your name:");
-        String name = scanner.nextLine();
-        System.out.println("Hallo, \"" + name + "\" :)");
-        return name;
-    }
-
-    public String inputPesonalNum() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please personal number:");
-        String personalNum = scanner.nextLine();
-        System.out.println("Thanks, we have your personal number now");
-        return personalNum;
-    }*/
 
     public void printCompactList (List<Member> membersList) {
         for (Member member : membersList) {
@@ -113,7 +50,7 @@ public class Console {
 
     public void printBoatInformations (Integer memberID, Boat boat) {
         System.out.println("Boat " + boat.getID() + "(owns by member " + memberID + ") : " + boat.getTypeOfBoat() +
-                ", length=" + new DecimalFormat("$#.00").format(boat.getLength()) );
+                ", length=" + new DecimalFormat("#.00").format(boat.getLength()) );
     }
 
     public int printMenu () {
@@ -148,9 +85,6 @@ public class Console {
         return choice;
     }
 
-    /*public Member printAddMember() {
-        System.out.println("You choosed to add a member. Please enter his/her name, or 0 to return to the menu");
-    }*/
 
     public void informAboutChoice(int choice) {
         if (choice<0 || choice>8)
@@ -227,7 +161,7 @@ public class Console {
             return ID;
     }
 
-    public Boat.TypeOfBoat askForTypeOfBoat() {
+    public TypeOfBoat askForTypeOfBoat() {
         System.out.println("Please select the type of the boat :");
         System.out.println("For a Sailboat, press 1");
         System.out.println("For a Motorsailer, press 2");
@@ -241,10 +175,10 @@ public class Console {
         }
 
         switch (type) {
-            case 1: return Boat.TypeOfBoat.SAILBOAT;
-            case 2: return Boat.TypeOfBoat.MOTORSAILER;
-            case 3: return Boat.TypeOfBoat.KAYAK;
-            case 4: return Boat.TypeOfBoat.OTHER;
+            case 1: return TypeOfBoat.SAILBOAT;
+            case 2: return TypeOfBoat.MOTORSAILER;
+            case 3: return TypeOfBoat.KAYAK;
+            case 4: return TypeOfBoat.OTHER;
             default: return null;
         }
     }
@@ -252,8 +186,13 @@ public class Console {
     public double askForBoatLength() {
         System.out.println("Please enter the length of the boat (in meters, with decimals) :");
         double length=-1;
-        while (length<=0 || length >2000) {
-            length = scanner.nextDouble();
+        while (length==-1) {
+            try {
+                length = Double.parseDouble(scanner.nextLine());
+            } catch(NumberFormatException e){
+                // Check if the nextLine is indeed a double. Unfortunately, scanner.hasNextDouble and scanner.nextDouble
+                // can't be used here...
+            }
         }
         return length;
     }
@@ -264,5 +203,9 @@ public class Console {
 
     public void printErrorAboutPersonalNumber() {
         System.out.println("This personal number is already linked to a registered member !");
+    }
+
+    public void printErrorWhileAskingBoatID() {
+        System.out.println("This member does not own the boat asked !");
     }
 }

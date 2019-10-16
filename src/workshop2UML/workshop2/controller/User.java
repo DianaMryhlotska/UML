@@ -3,7 +3,11 @@ package workshop2UML.workshop2.controller;
 import workshop2UML.workshop2.model.Boat;
 import workshop2UML.workshop2.model.Member;
 import workshop2UML.workshop2.model.Register;
+import workshop2UML.workshop2.model.TypeOfBoat;
 import workshop2UML.workshop2.view.Console;
+import workshop2UML.workshop2.view.FileBackup;
+
+import java.io.IOException;
 
 // TODO : Controls interactions between Models and View !
 // TODO : Review all !
@@ -11,13 +15,23 @@ import workshop2UML.workshop2.view.Console;
 public class User {
     private Console console;
     private Register register;
+    private FileBackup backup;
 
     public User(Console console, Register register) {
         this.console = console;
         this.register = register;
+
+
+        try {
+            this.backup = new FileBackup();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean startSystem() {
+        loadData();
+
         int choice;
         do {
             choice=console.printMenu();
@@ -46,6 +60,7 @@ public class User {
             }
         } while (choice>=1 && choice<=9);
 
+        saveData();
         return true;
     }
 
@@ -57,7 +72,6 @@ public class User {
             console.printCompactList(register.membersList());
         else
             console.printVerboseList(register.membersList());
-        startSystem();
     }
 
     private void addMember() {
@@ -75,12 +89,14 @@ public class User {
 
     private void deleteMember() {
         console.informAboutChoice(3);
+        console.printMembersID(register.membersList());
         int ID = console.askForMemberID();
         register.deleteMember(ID);
     }
 
     private void seeInformationsAboutAMember() {
         console.informAboutChoice(4);
+        console.printMembersID(register.membersList());
         int ID = console.askForMemberID();
         Member member = register.getMember(ID);
         console.printMemberInformations(member);
@@ -88,6 +104,7 @@ public class User {
 
     private void updateMemberInformations() {
         console.informAboutChoice(5);
+        console.printMembersID(register.membersList());
         int ID = console.askForMemberID();
         Member member = register.getMember(ID);
         console.printMemberInformations(member);
@@ -98,6 +115,7 @@ public class User {
 
     private void registerBoat() {
         console.informAboutChoice(6);
+        console.printMembersID(register.membersList());
 
         int memberID = console.askForMemberID();
         if (!register.containsMember(memberID)) {
@@ -105,7 +123,7 @@ public class User {
             return;
         }
 
-        Boat.TypeOfBoat type = console.askForTypeOfBoat();
+        TypeOfBoat type = console.askForTypeOfBoat();
         double length = console.askForBoatLength();
 
         register.addNewBoat(memberID, type, length);
@@ -113,6 +131,7 @@ public class User {
 
     private void deleteBoat() {
         console.informAboutChoice(7);
+        console.printMembersID(register.membersList());
 
         int memberID = console.askForMemberID();
         if (!register.containsMember(memberID)) {
@@ -120,13 +139,23 @@ public class User {
             return;
         }
 
+        Member member = register.getMember(memberID);
+
+        for (Boat boat : member.getListOfBoats())
+            console.printBoatInformations(memberID, boat);
+
         int boatID = console.askForBoatID();
+        if (member.getBoat(boatID)==null) {
+            console.printErrorWhileAskingBoatID();
+            return;
+        }
 
         register.removeBoat(memberID, boatID);
     }
 
     private void updateBoatInformations() {
         console.informAboutChoice(8);
+        console.printMembersID(register.membersList());
 
         int memberID = console.askForMemberID();
         if (!register.containsMember(memberID)) {
@@ -134,8 +163,18 @@ public class User {
             return;
         }
 
+        Member member = register.getMember(memberID);
+
+        for (Boat boat : member.getListOfBoats())
+            console.printBoatInformations(memberID, boat);
+
         int boatID = console.askForBoatID();
-        Boat.TypeOfBoat type = console.askForTypeOfBoat();
+        if (member.getBoat(boatID)==null) {
+            console.printErrorWhileAskingBoatID();
+            return;
+        }
+
+        TypeOfBoat type = console.askForTypeOfBoat();
         double length = console.askForBoatLength();
 
         Boat boat = register.getMember(memberID).getBoat(boatID);
@@ -146,27 +185,19 @@ public class User {
         register.getMember(memberID).addBoat(boat);
     }
 
-    /*public boolean Start(Console a_view, ClubSystem a_session) {
-
-        a_view.collectEvents();
-
-        if (a_view.wantsToStart()) {
-            a_session.start();
-        } else if (a_view.wantsToCreateMember()) {
-            String name = a_view.inputName();
-            String personalNum = a_view.inputPesonalNum();
-            a_session.createNewMember(name, personalNum);
+    private void loadData() {
+        try {
+            backup.loadRegisterFromFile(register);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
-        return true;
-    }*/
-
-    private void safeExit(Object object) {
-        if (object==null)
-            startSystem();
-
-        int o = (int) object;
-        if (o==-1)
-            startSystem();
+    private void saveData() {
+        try {
+            backup.saveRegisterIntoFile(register);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
