@@ -4,8 +4,6 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.LinkedList;
 
-// TODO : Insert checks about data when we add/remove something
-
 public class Member {
     private String Name;
     private String PersonalNumber;

@@ -10,9 +10,6 @@ import workshop2UML.workshop2.view.FileBackup;
 import java.io.IOException;
 import java.util.InputMismatchException;
 
-// TODO : Controls interactions between Models and View !
-// TODO : Review all !
-
 public class User {
     private Console console;
     private Register register;
@@ -36,7 +33,6 @@ public class User {
         int choice;
         do {
             choice=console.printMenu();
-            // TODO : Find why you have to ask twice to exit !
             switch (choice) {
                 case 1: listMember();
                     break;

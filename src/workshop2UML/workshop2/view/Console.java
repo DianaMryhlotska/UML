@@ -13,8 +13,6 @@ import java.util.Scanner;
 public class Console {
     private Scanner scanner;
 
-    private int m_input;
-
     public Console() {
         this.scanner = new Scanner(System.in);
         scanner.useLocale(Locale.US);
@@ -156,7 +154,7 @@ public class Console {
 
     public int askForBoatID() throws InputMismatchException{
         System.out.println("Please enter the boat ID");
-        
+
         int ID = scanner.nextInt();
         scanner.nextLine();
         return ID;
