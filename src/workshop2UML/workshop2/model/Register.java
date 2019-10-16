@@ -13,7 +13,7 @@ public class Register {
         this.numberOfBoats = 1;
     }
 
-    public boolean containsMember(int memberID) {
+    public boolean containsMemberID(int memberID) {
         return register.containsKey(memberID);
     }
 
@@ -74,13 +74,13 @@ public class Register {
         return register.get(memberID);
     }
 
-    public boolean addNewBoat (Integer memberID, TypeOfBoat typeOfBoat, double length) {
+    public boolean addNewBoat (Integer memberID, TypeOfBoat type, double length) {
         if (!register.containsKey(memberID))
             throw new IllegalArgumentException("Member " + memberID + " does not exist yet !");
 
         Member member = register.get(memberID);
 
-        Boat newBoat = new Boat(numberOfBoats, typeOfBoat, length);
+        Boat newBoat = new Boat(numberOfBoats, type, length);
         numberOfBoats++;
         member.addBoat(newBoat);
 

@@ -118,7 +118,7 @@ public class User {
         console.printMembersID(register.membersList());
 
         int memberID = console.askForMemberID();
-        if (!register.containsMember(memberID)) {
+        if (!register.containsMemberID(memberID)) {
             console.printErrorWhileAskingMemberID();
             return;
         }
@@ -134,7 +134,7 @@ public class User {
         console.printMembersID(register.membersList());
 
         int memberID = console.askForMemberID();
-        if (!register.containsMember(memberID)) {
+        if (!register.containsMemberID(memberID)) {
             console.printErrorWhileAskingMemberID();
             return;
         }
@@ -158,7 +158,7 @@ public class User {
         console.printMembersID(register.membersList());
 
         int memberID = console.askForMemberID();
-        if (!register.containsMember(memberID)) {
+        if (!register.containsMemberID(memberID)) {
             console.printErrorWhileAskingMemberID();
             return;
         }
