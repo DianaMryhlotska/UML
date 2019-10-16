@@ -13,27 +13,27 @@ public class Register {
         this.numberOfBoats = 1;
     }
 
-    //public boolean checkPersonalNumber(String personalNum){
-      //  if (register.containsKey(personalNum))
-        //    return false;
-       // else
-         //   return true;
-    //}
+    public boolean containsMember(int memberID) {
+        return register.containsKey(memberID);
+    }
 
-    public boolean createMember(String name, String personalNum) {
+    public boolean containsMember(String personalNumber) {
+        for (Map.Entry<Integer, Member> member : register.entrySet()) {
+            if (member.getValue().getPersonalNumber().equals(personalNumber))
+                return true;
+        }
+        return false;
+    }
+
+    public int createMember(String name, String personalNum){
         Member member = new Member(name, personalNum, numberOfMembers);
 
         if (register.containsValue(member))
-            return false;
+            return -1;
 
-      //  if (checkPersonalNumber(personalNum) == true) {
-            register.put(numberOfMembers, member);
-            numberOfMembers++;
-          //  return true;
-      //  }
-
-        return true;
-
+        register.put(numberOfMembers, member);
+        numberOfMembers++;
+        return numberOfMembers-1;
     }
 
     public boolean deleteMember(int memberID){
@@ -74,7 +74,7 @@ public class Register {
         return register.get(memberID);
     }
 
-    public boolean addNewBoat (Integer memberID, Boat.TypeOfBoat typeOfBoat, double length) {
+    public boolean addNewBoat (Integer memberID, TypeOfBoat typeOfBoat, double length) {
         if (!register.containsKey(memberID))
             throw new IllegalArgumentException("Member " + memberID + " does not exist yet !");
 

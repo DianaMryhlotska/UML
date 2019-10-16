@@ -5,15 +5,6 @@ import java.util.Objects;
 public class Boat {
     private int ID;
     private double length;
-
-    public enum TypeOfBoat{
-        SAILBOAT,
-        MOTORSAILER,
-        KAYAK,
-        OTHER
-    }
-
-
     private TypeOfBoat typeOfBoat;
 
     public Boat(int ID, TypeOfBoat typeOfBoat, double length) {
