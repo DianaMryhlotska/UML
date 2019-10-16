@@ -151,22 +151,15 @@ public class Console {
 
         int ID = scanner.nextInt();
         scanner.nextLine();
-
-        if (ID==0)
-            return -1;
-        else
-            return ID;
+        return ID;
     }
 
     public int askForBoatID() throws InputMismatchException{
         System.out.println("Please enter the boat ID");
+        
         int ID = scanner.nextInt();
         scanner.nextLine();
-
-        if (ID==0)
-            return -1;
-        else
-            return ID;
+        return ID;
     }
 
     public TypeOfBoat askForTypeOfBoat() {
