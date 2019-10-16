@@ -105,8 +105,8 @@ public class Console {
     }
 
     public void printMemberInformations (Member member) {
-        System.out.println("Member " + member.getMemberId() + " : " + member.getName() + " (Personnal number: " +
-                member.getPersonnalNumber() + "). " + member.getNumberOfBoats() + " boats owned :");
+        System.out.println("Member " + member.getMemberId() + " : " + member.getName() + " (Personal number: " +
+                member.getPersonalNumber() + "). " + member.getNumberOfBoats() + " boats owned :");
         for (Boat boat : member.getListOfBoats())
             System.out.println(boat.toString());
     }
@@ -191,14 +191,18 @@ public class Console {
             return name;
     }
 
-    public String askForPersonnalNumber() {
-        System.out.println("Please enter the personnal number");
-        String personnalNumber = scanner.nextLine();
+    public String askForPersonalNumber() {
+        String personalNumber;
 
-        if (personnalNumber.equals("0"))
+        do {
+            System.out.println("Please enter the personal number (12 digits)");
+            personalNumber = scanner.nextLine();
+        } while (personalNumber.length()!=12);
+
+        /*if (personalNumber.equals("0"))
             return null;
-        else
-            return personnalNumber;
+        else*/
+            return personalNumber;
     }
 
     public int askForMemberID() {
@@ -252,5 +256,13 @@ public class Console {
             length = scanner.nextDouble();
         }
         return length;
+    }
+
+    public void printErrorWhileAskingMemberID() {
+        System.out.println("You enter an unknown member ID !");
+    }
+
+    public void printErrorAboutPersonalNumber() {
+        System.out.println("This personal number is already linked to a registered member !");
     }
 }

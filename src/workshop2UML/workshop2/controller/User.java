@@ -63,8 +63,14 @@ public class User {
     private void addMember() {
         console.informAboutChoice(2);
         String name = console.askForName();
-        String personnalNumber = console.askForPersonnalNumber();
-        register.createMember(name, personnalNumber);
+
+        String personalNumber = console.askForPersonalNumber();
+        if (register.containsMember(personalNumber)) {
+            console.printErrorAboutPersonalNumber();
+            return;
+        }
+
+        register.createMember(name, personalNumber);
     }
 
     private void deleteMember() {
@@ -86,14 +92,19 @@ public class User {
         Member member = register.getMember(ID);
         console.printMemberInformations(member);
         String name = console.askForName();
-        String personnalNumber = console.askForPersonnalNumber();
-        register.changeMemberInformation(ID, name, personnalNumber);
+        String personalNumber = console.askForPersonalNumber();
+        register.changeMemberInformation(ID, name, personalNumber);
     }
 
     private void registerBoat() {
         console.informAboutChoice(6);
 
         int memberID = console.askForMemberID();
+        if (!register.containsMember(memberID)) {
+            console.printErrorWhileAskingMemberID();
+            return;
+        }
+
         Boat.TypeOfBoat type = console.askForTypeOfBoat();
         double length = console.askForBoatLength();
 
@@ -104,6 +115,11 @@ public class User {
         console.informAboutChoice(7);
 
         int memberID = console.askForMemberID();
+        if (!register.containsMember(memberID)) {
+            console.printErrorWhileAskingMemberID();
+            return;
+        }
+
         int boatID = console.askForBoatID();
 
         register.removeBoat(memberID, boatID);
@@ -113,6 +129,11 @@ public class User {
         console.informAboutChoice(8);
 
         int memberID = console.askForMemberID();
+        if (!register.containsMember(memberID)) {
+            console.printErrorWhileAskingMemberID();
+            return;
+        }
+
         int boatID = console.askForBoatID();
         Boat.TypeOfBoat type = console.askForTypeOfBoat();
         double length = console.askForBoatLength();

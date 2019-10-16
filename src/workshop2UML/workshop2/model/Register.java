@@ -13,6 +13,18 @@ public class Register {
         this.numberOfBoats = 1;
     }
 
+    public boolean containsMember(int memberID) {
+        return register.containsKey(memberID);
+    }
+
+    public boolean containsMember(String personalNumber) {
+        for (Map.Entry<Integer, Member> member : register.entrySet()) {
+            if (member.getValue().getPersonalNumber().equals(personalNumber))
+                return true;
+        }
+        return false;
+    }
+
     public boolean createMember(String name, String personalNum){
         Member member = new Member(name, personalNum, numberOfMembers);
 
@@ -50,7 +62,7 @@ public class Register {
             member.setName(name);
 
         if (personalNumber!=null)
-            member.setPersonnalNumber(personalNumber);
+            member.setPersonalNumber(personalNumber);
 
         return (register.replace(memberID, member)!=null);
     }
