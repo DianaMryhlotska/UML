@@ -108,8 +108,9 @@ public class Console {
             case 8: System.out.println("You choose to update informations about a specific boat.");
                 break;
             default: System.out.println("You are exiting the system. Goodbye !");
-                break;
+                return;
         }
+
     }
 
 

@@ -77,7 +77,7 @@ public class User {
     private void addMember() {
         console.informAboutChoice(2);
         String name = console.askForName();
-
+      
         String personalNumber = console.askForPersonalNumber();
         if (register.containsMember(personalNumber)) {
             console.printErrorAboutPersonalNumber();
