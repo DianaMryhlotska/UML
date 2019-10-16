@@ -5,6 +5,7 @@ import workshop2UML.workshop2.model.Member;
 import workshop2UML.workshop2.model.TypeOfBoat;
 
 import java.text.DecimalFormat;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -67,6 +68,11 @@ public class Console {
                 System.out.println("\tRemove a registered boat : press 7");
                 System.out.println("\tUpdate informations about a registered boat : press 8");
                 System.out.println("\tPress 0 to exit");
+
+                if (!scanner.hasNextInt()) {
+                    scanner.nextLine();
+                }
+
                 choice = scanner.nextInt();
                 scanner.nextLine();
             }
@@ -140,26 +146,20 @@ public class Console {
             return personalNumber;
     }
 
-    public int askForMemberID() {
+    public int askForMemberID() throws InputMismatchException{
         System.out.println("Please enter the member ID");
+
         int ID = scanner.nextInt();
         scanner.nextLine();
-
-        if (ID==0)
-            return -1;
-        else
-            return ID;
+        return ID;
     }
 
-    public int askForBoatID() {
+    public int askForBoatID() throws InputMismatchException{
         System.out.println("Please enter the boat ID");
+        
         int ID = scanner.nextInt();
         scanner.nextLine();
-
-        if (ID==0)
-            return -1;
-        else
-            return ID;
+        return ID;
     }
 
     public TypeOfBoat askForTypeOfBoat() {

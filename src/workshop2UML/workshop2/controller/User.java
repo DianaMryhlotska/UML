@@ -8,6 +8,7 @@ import workshop2UML.workshop2.view.Console;
 import workshop2UML.workshop2.view.FileBackup;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 
 // TODO : Controls interactions between Models and View !
 // TODO : Review all !
@@ -90,14 +91,29 @@ public class User {
     private void deleteMember() {
         console.informAboutChoice(3);
         console.printMembersID(register.membersList());
-        int ID = console.askForMemberID();
+
+        int ID;
+        try {
+            ID = console.askForMemberID();
+        } catch (InputMismatchException error) {
+            console.printErrorWhileAskingMemberID();
+            return;
+        }
         register.deleteMember(ID);
     }
 
     private void seeInformationsAboutAMember() {
         console.informAboutChoice(4);
         console.printMembersID(register.membersList());
-        int ID = console.askForMemberID();
+
+        int ID;
+        try {
+            ID = console.askForMemberID();
+        } catch (InputMismatchException error) {
+            console.printErrorWhileAskingMemberID();
+            return;
+        }
+
         Member member = register.getMember(ID);
         console.printMemberInformations(member);
     }
@@ -105,7 +121,15 @@ public class User {
     private void updateMemberInformations() {
         console.informAboutChoice(5);
         console.printMembersID(register.membersList());
-        int ID = console.askForMemberID();
+
+        int ID;
+        try {
+            ID = console.askForMemberID();
+        } catch (InputMismatchException error) {
+            console.printErrorWhileAskingMemberID();
+            return;
+        }
+
         Member member = register.getMember(ID);
         console.printMemberInformations(member);
         String name = console.askForName();
@@ -117,8 +141,15 @@ public class User {
         console.informAboutChoice(6);
         console.printMembersID(register.membersList());
 
-        int memberID = console.askForMemberID();
-        if (!register.containsMember(memberID)) {
+        int memberID;
+        try {
+            memberID = console.askForMemberID();
+        } catch (InputMismatchException error) {
+            console.printErrorWhileAskingMemberID();
+            return;
+        }
+
+        if (!register.containsMemberID(memberID)) {
             console.printErrorWhileAskingMemberID();
             return;
         }
@@ -133,8 +164,15 @@ public class User {
         console.informAboutChoice(7);
         console.printMembersID(register.membersList());
 
-        int memberID = console.askForMemberID();
-        if (!register.containsMember(memberID)) {
+        int memberID;
+        try {
+            memberID = console.askForMemberID();
+        } catch (InputMismatchException error) {
+            console.printErrorWhileAskingMemberID();
+            return;
+        }
+
+        if (!register.containsMemberID(memberID)) {
             console.printErrorWhileAskingMemberID();
             return;
         }
@@ -144,7 +182,14 @@ public class User {
         for (Boat boat : member.getListOfBoats())
             console.printBoatInformations(memberID, boat);
 
-        int boatID = console.askForBoatID();
+        int boatID;
+        try {
+            boatID = console.askForBoatID();
+        } catch (InputMismatchException error){
+            console.printErrorWhileAskingBoatID();
+            return;
+        }
+
         if (member.getBoat(boatID)==null) {
             console.printErrorWhileAskingBoatID();
             return;
@@ -157,8 +202,15 @@ public class User {
         console.informAboutChoice(8);
         console.printMembersID(register.membersList());
 
-        int memberID = console.askForMemberID();
-        if (!register.containsMember(memberID)) {
+        int memberID;
+        try {
+            memberID = console.askForMemberID();
+        } catch (InputMismatchException error) {
+            console.printErrorWhileAskingMemberID();
+            return;
+        }
+
+        if (!register.containsMemberID(memberID)) {
             console.printErrorWhileAskingMemberID();
             return;
         }
@@ -168,7 +220,14 @@ public class User {
         for (Boat boat : member.getListOfBoats())
             console.printBoatInformations(memberID, boat);
 
-        int boatID = console.askForBoatID();
+        int boatID;
+        try {
+            boatID = console.askForBoatID();
+        } catch (InputMismatchException error){
+            console.printErrorWhileAskingBoatID();
+            return;
+        }
+
         if (member.getBoat(boatID)==null) {
             console.printErrorWhileAskingBoatID();
             return;

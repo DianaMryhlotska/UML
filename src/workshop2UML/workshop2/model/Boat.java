@@ -1,6 +1,7 @@
 package workshop2UML.workshop2.model;
 
 import java.util.Objects;
+import workshop2UML.workshop2.model.TypeOfBoat; // Important !!
 
 public class Boat {
     private int ID;

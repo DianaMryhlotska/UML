@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="UML:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/UML_jar</output-path>
+    <root id="archive" name="UML.jar">
+      <element id="module-output" name="UML" />
+    </root>
+  </artifact>
+</component>
