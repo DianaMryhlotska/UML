@@ -4,6 +4,9 @@ import workshop2UML.workshop2.model.Boat;
 import workshop2UML.workshop2.model.Member;
 import workshop2UML.workshop2.model.TypeOfBoat;
 
+import java.security.KeyFactory;
+import java.security.KeyStore;
+import java.security.interfaces.RSAKey;
 import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -55,16 +58,17 @@ public class Console {
     public int printMenu () {
         int choice=-1;
         System.out.println("\n");
-            while (choice<0 || choice>8) {
+            while (choice<0 || choice>9) {
                 System.out.println("Welcome in the Jolly Pirate Club ! Please select an action");
                 System.out.println("\tShow all the registered members : press 1");
-                System.out.println("\tAdd a member : press 2");
-                System.out.println("\tDelete a member : press 3");
+                System.out.println("\tAdd a member (registered users only) : press 2");
+                System.out.println("\tDelete a member (registered users only) : press 3");
                 System.out.println("\tSee informations about a member : press 4");
-                System.out.println("\tUpdate informations about a member : press 5");
-                System.out.println("\tRegister a new boat : press 6");
-                System.out.println("\tRemove a registered boat : press 7");
-                System.out.println("\tUpdate informations about a registered boat : press 8");
+                System.out.println("\tUpdate informations about a member (registered users only) : press 5");
+                System.out.println("\tRegister a new boat (registered users only) : press 6");
+                System.out.println("\tRemove a registered boat (registered users only) : press 7");
+                System.out.println("\tUpdate informations about a registered boat (registered users only) : press 8");
+                System.out.println("\tSearch a specific member : press 9");
                 System.out.println("\tPress 0 to exit");
 
                 if (!scanner.hasNextInt()) {
@@ -206,5 +210,28 @@ public class Console {
 
     public void printErrorWhileAskingBoatID() {
         System.out.println("This member does not own the boat asked !");
+    }
+
+    public int askIDForAuthentification() {
+        System.out.println("You must be logged to proceed !");
+        return askForMemberID();
+    }
+
+    public String askPassword() {
+        System.out.println("Please enter the password :");
+        return scanner.nextLine();
+    }
+
+    public boolean askForCreateAUser() {
+        System.out.println("Do you want to create a password for this member and give him access rights ?");
+        String answer = scanner.nextLine();
+        return answer.toLowerCase().equals("yes") || answer.toLowerCase().equals("ja");
+    }
+
+    public void authSuccess(boolean success) {
+        if (success)
+            System.out.println("Authentification succeeded !");
+        else
+            System.out.println("Authentification failed !");
     }
 }
