@@ -4,16 +4,16 @@ import workshop2UML.workshop2.model.Boat;
 import workshop2UML.workshop2.model.Member;
 import workshop2UML.workshop2.model.TypeOfBoat;
 
+import java.security.KeyFactory;
+import java.security.KeyStore;
+import java.security.interfaces.RSAKey;
 import java.text.DecimalFormat;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Console {
     private Scanner scanner;
-
-    private int m_input;
 
     public Console() {
         this.scanner = new Scanner(System.in);
@@ -57,16 +57,17 @@ public class Console {
     public int printMenu () {
         int choice=-1;
         System.out.println("\n");
-            while (choice<0 || choice>8) {
+            while (choice<0 || choice>9) {
                 System.out.println("Welcome in the Jolly Pirate Club ! Please select an action");
                 System.out.println("\tShow all the registered members : press 1");
-                System.out.println("\tAdd a member : press 2");
-                System.out.println("\tDelete a member : press 3");
+                System.out.println("\tAdd a member (registered users only) : press 2");
+                System.out.println("\tDelete a member (registered users only) : press 3");
                 System.out.println("\tSee informations about a member : press 4");
-                System.out.println("\tUpdate informations about a member : press 5");
-                System.out.println("\tRegister a new boat : press 6");
-                System.out.println("\tRemove a registered boat : press 7");
-                System.out.println("\tUpdate informations about a registered boat : press 8");
+                System.out.println("\tUpdate informations about a member (registered users only) : press 5");
+                System.out.println("\tRegister a new boat (registered users only) : press 6");
+                System.out.println("\tRemove a registered boat (registered users only) : press 7");
+                System.out.println("\tUpdate informations about a registered boat (registered users only) : press 8");
+                System.out.println("\tSearch a specific member : press 9");
                 System.out.println("\tPress 0 to exit");
 
                 if (!scanner.hasNextInt()) {
@@ -93,7 +94,7 @@ public class Console {
 
 
     public void informAboutChoice(int choice) {
-        if (choice<0 || choice>8)
+        if (choice<0 || choice>10)
             throw new IllegalCallerException("No choice made yet !");
         System.out.println("\n");
         switch (choice) {
@@ -112,6 +113,10 @@ public class Console {
             case 7: System.out.println("You choose to remove a registered boat.");
                 break;
             case 8: System.out.println("You choose to update informations about a specific boat.");
+                break;
+            case 9: System.out.println("You choose to do a search in our database.");
+                break;
+            case 10: System.out.println("You want to add an other criteria to your search.");
                 break;
             default: System.out.println("You are exiting the system. Goodbye !");
                 return;
@@ -135,15 +140,35 @@ public class Console {
     public String askForPersonalNumber() {
         String personalNumber;
 
-        do {
-            System.out.println("Please enter the personal number (12 digits)");
-            personalNumber = scanner.nextLine();
-        } while (personalNumber.length()!=12);
+        boolean lengthIsValid=false;
+        boolean formatIsValid=false;
+        boolean dateIsValid = false;
 
-        /*if (personalNumber.equals("0"))
-            return null;
-        else*/
-            return personalNumber;
+        do {
+            System.out.println("Please enter the personal number (10 digits : format YYMMDD-XXXX)");
+            personalNumber = scanner.nextLine();
+
+            lengthIsValid = (personalNumber.length()==11);
+
+            // if statement are needed to avoid any NullPointerException (for length=1 for example)
+            if (lengthIsValid) {
+                String[] format = personalNumber.split("-");
+                formatIsValid = (format.length==2 && format[0].length()==6 && format[1].length()==4);
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd");
+
+                Date date;
+                try {
+                    dateFormat.setLenient(false);
+                    date = dateFormat.parse(format[0]);
+                    dateIsValid = true;
+                } catch (ParseException e) {
+                    dateIsValid = false;
+                }
+            }
+        } while (!lengthIsValid || !formatIsValid || !dateIsValid);
+
+        return personalNumber;
     }
 
     public int askForMemberID() throws InputMismatchException{
@@ -156,7 +181,7 @@ public class Console {
 
     public int askForBoatID() throws InputMismatchException{
         System.out.println("Please enter the boat ID");
-        
+
         int ID = scanner.nextInt();
         scanner.nextLine();
         return ID;
@@ -208,5 +233,115 @@ public class Console {
 
     public void printErrorWhileAskingBoatID() {
         System.out.println("This member does not own the boat asked !");
+    }
+
+    public int askIDForAuthentification() {
+        System.out.println("You must be logged to proceed !");
+        return askForMemberID();
+    }
+
+    public String askPassword() {
+        System.out.println("Please enter the password :");
+        return scanner.nextLine();
+    }
+
+    public boolean askForCreateAUser() {
+        System.out.println("Do you want to create a password for this member and give him access rights ?");
+        String answer = scanner.nextLine();
+        return answer.toLowerCase().equals("yes") || answer.toLowerCase().equals("ja");
+    }
+
+    public void authSuccess(boolean success) {
+        if (success)
+            System.out.println("Authentification succeeded !");
+        else
+            System.out.println("Authentification failed !");
+    }
+
+    public int askForSearch() {
+        System.out.println("For searching a name pattern, press 1");
+        System.out.println("For searching about a specific year of birth, press 2");
+        System.out.println("For searching about a specific month of birth, press 3");
+        System.out.println("For searching the members older than a specific age, press 4");
+        System.out.println("For searching all the owners of a specific type of boat, press 5");
+        int search=-1;
+
+        while (search<1 || search>5) {
+            search = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        return search;
+    }
+
+    public String askForSearchingAboutPatternsInName() {
+        System.out.println("You want to search a certain pattern in members' name. Please type your pattern :");
+        return scanner.nextLine();
+    }
+
+    public int askForSearchingAboutYearOfBirth() {
+        System.out.println("You want to search about a specific year of birth. Please type the year :");
+        int year=-1;
+
+        while (year<1900 || year>2100) {
+            year = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        return year;
+    }
+
+    public int askForSearchingAboutMonthOfBirth() {
+        System.out.println("You want to search about a specific month of birth. Please type the month :");
+        int month=-1;
+
+        while (month<1 || month>12) {
+            month = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        return month;
+    }
+
+    public int askForSearchingAboutAge() {
+        System.out.println("You want to search all the members older than a certain age. Please type the age :");
+        int age=-1;
+
+        while (age<0 || age>119) { // Impossible to register someone who was born before 1900
+            age = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        return age;
+    }
+
+    public TypeOfBoat askForSearchingAboutTypeOfBoat() {
+        System.out.println("You want to search all the owners of a specific type of boat.");
+        System.out.println("Press 1 for a Sailboat, 2 for a Motorsailer, 3 for a Kayak/Canoe or 4 for the others " +
+                "types");
+        int type=-1;
+
+        while (type<1 || type>4) {
+            type = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        switch (type) {
+            case 1: return TypeOfBoat.SAILBOAT;
+            case 2: return TypeOfBoat.MOTORSAILER;
+            case 3: return TypeOfBoat.KAYAK;
+            case 4: return TypeOfBoat.OTHER;
+            default: return null;
+        }
+    }
+
+    public boolean askForAnOtherCriteria() {
+        System.out.println("Do you want to add an other criteria for your search ?");
+        String answer = scanner.nextLine();
+        return answer.toLowerCase().equals("yes") || answer.toLowerCase().equals("ja");
+    }
+
+    public void searchingResults() {
+        System.out.println("Here are the results of your search in our database :");
     }
 }

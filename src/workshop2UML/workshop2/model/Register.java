@@ -1,5 +1,6 @@
 package workshop2UML.workshop2.model;
 
+import java.time.Instant;
 import java.util.*;
 
 public class Register {
@@ -105,6 +106,81 @@ public class Register {
 
     public int getNumberOfBoats() {
         return numberOfBoats-1;
+    }
+
+    public Member searchAboutPersonalNumber(String personalNumber) {
+        for (Member member : register.values()) {
+            if (member.getPersonalNumber().equals(personalNumber))
+                return member;
+        }
+        return null;
+    }
+
+    public List<Member> searchAboutYearOfBirth (int year) {
+        if (year<1900 || year>2100)
+            throw new IllegalArgumentException("Date is not valid !");
+
+        ArrayList<Member> results = new ArrayList<>();
+
+        for (Member member : register.values()) {
+            if (member.getDateOfBirth().getYear() == year)
+                results.add(member);
+        }
+
+        return results;
+    }
+
+    public List<Member> searchAboutMonthOfBirth (int month) {
+        if (month<1 || month>12)
+            throw new IllegalArgumentException("Date is not valid !");
+
+        ArrayList<Member> results = new ArrayList<>();
+
+        for (Member member : register.values()) {
+            if (member.getDateOfBirth().getMonth()+1 == month)
+                results.add(member);
+        }
+
+        return results;
+    }
+
+    public List<Member> searchAboutAge (int age) {
+        ArrayList<Member> results = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -age); // TODO : Check
+
+        for (Member member : register.values()) {
+            if (member.getDateOfBirth().compareTo(calendar.getTime())<=0)
+                results.add(member);
+        }
+
+        return results;
+    }
+
+    public List<Member> searchAboutPatternsInName (String pattern) {
+        ArrayList<Member> results = new ArrayList<>();
+
+        for (Member member : register.values()) {
+            if (member.getName().toLowerCase().contains(pattern.toLowerCase()))
+                results.add(member);
+        }
+
+        return results;
+    }
+
+    public List<Member> searchAboutTypeOfBoatsOwned (TypeOfBoat type) {
+        ArrayList<Member> results = new ArrayList<>();
+
+        for (Member member : register.values()) {
+            for (Boat boat : member.getListOfBoats()) {
+                if (boat.getTypeOfBoat().equals(type)) {
+                    results.add(member);
+                    break;
+                }
+            }
+        }
+
+        return results;
     }
 
     @Override

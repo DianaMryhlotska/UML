@@ -8,20 +8,29 @@ import workshop2UML.workshop2.view.Console;
 import workshop2UML.workshop2.view.FileBackup;
 
 import java.io.IOException;
+import java.security.KeyStore;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 
-// TODO : Controls interactions between Models and View !
-// TODO : Review all !
+// TODO : Encrypt all the passwords
+// TODO : Export encrypted passwords in the save file (if the user want it)
 
 public class User {
     private Console console;
     private Register register;
     private FileBackup backup;
+    private boolean logged;
+    private HashMap<Integer, String> users;
 
     public User(Console console, Register register) {
         this.console = console;
         this.register = register;
+        this.users = new HashMap<>();
+        this.logged = false;
 
+        users.put(0, "root");
 
         try {
             this.backup = new FileBackup();
@@ -36,7 +45,6 @@ public class User {
         int choice;
         do {
             choice=console.printMenu();
-            // TODO : Find why you have to ask twice to exit !
             switch (choice) {
                 case 1: listMember();
                     break;
@@ -53,6 +61,8 @@ public class User {
                 case 7: deleteBoat();
                     break;
                 case 8: updateBoatInformations();
+                    break;
+                case 9: computeASearch();
                     break;
                 case 0: console.informAboutChoice(0);
                     break;
@@ -76,30 +86,39 @@ public class User {
     }
 
     private void addMember() {
-        console.informAboutChoice(2);
-        String name = console.askForName();
-      
-        String personalNumber = console.askForPersonalNumber();
-        if (register.containsMember(personalNumber)) {
-            console.printErrorAboutPersonalNumber();
-            return;
-        }
+        if (logged || logIn()) {
+            console.informAboutChoice(2);
+            String name = console.askForName();
 
-        register.createMember(name, personalNumber);
+            String personalNumber = console.askForPersonalNumber();
+            if (register.containsMember(personalNumber)) {
+                console.printErrorAboutPersonalNumber();
+                return;
+            }
+
+            int ID = register.createMember(name, personalNumber);
+
+            if (console.askForCreateAUser()) {
+                String password = console.askPassword();
+                users.put(ID, password);
+            }
+        }
     }
 
     private void deleteMember() {
-        console.informAboutChoice(3);
-        console.printMembersID(register.membersList());
+        if (logged || logIn()) {
+            console.informAboutChoice(3);
+            console.printMembersID(register.membersList());
 
-        int ID;
-        try {
-            ID = console.askForMemberID();
-        } catch (InputMismatchException error) {
-            console.printErrorWhileAskingMemberID();
-            return;
+            int ID;
+            try {
+                ID = console.askForMemberID();
+            } catch (InputMismatchException error) {
+                console.printErrorWhileAskingMemberID();
+                return;
+            }
+            register.deleteMember(ID);
         }
-        register.deleteMember(ID);
     }
 
     private void seeInformationsAboutAMember() {
@@ -119,129 +138,177 @@ public class User {
     }
 
     private void updateMemberInformations() {
-        console.informAboutChoice(5);
-        console.printMembersID(register.membersList());
+        if (logged || logIn()) {
+            console.informAboutChoice(5);
+            console.printMembersID(register.membersList());
 
-        int ID;
-        try {
-            ID = console.askForMemberID();
-        } catch (InputMismatchException error) {
-            console.printErrorWhileAskingMemberID();
-            return;
+            int ID;
+            try {
+                ID = console.askForMemberID();
+            } catch (InputMismatchException error) {
+                console.printErrorWhileAskingMemberID();
+                return;
+            }
+
+            Member member = register.getMember(ID);
+            console.printMemberInformations(member);
+            String name = console.askForName();
+            String personalNumber = console.askForPersonalNumber();
+            register.changeMemberInformation(ID, name, personalNumber);
         }
-
-        Member member = register.getMember(ID);
-        console.printMemberInformations(member);
-        String name = console.askForName();
-        String personalNumber = console.askForPersonalNumber();
-        register.changeMemberInformation(ID, name, personalNumber);
     }
 
     private void registerBoat() {
-        console.informAboutChoice(6);
-        console.printMembersID(register.membersList());
+        if (logged || logIn()) {
+            console.informAboutChoice(6);
+            console.printMembersID(register.membersList());
 
-        int memberID;
-        try {
-            memberID = console.askForMemberID();
-        } catch (InputMismatchException error) {
-            console.printErrorWhileAskingMemberID();
-            return;
+            int memberID;
+            try {
+                memberID = console.askForMemberID();
+            } catch (InputMismatchException error) {
+                console.printErrorWhileAskingMemberID();
+                return;
+            }
+
+            if (!register.containsMemberID(memberID)) {
+                console.printErrorWhileAskingMemberID();
+                return;
+            }
+
+            TypeOfBoat type = console.askForTypeOfBoat();
+            double length = console.askForBoatLength();
+
+            register.addNewBoat(memberID, type, length);
         }
-
-        if (!register.containsMemberID(memberID)) {
-            console.printErrorWhileAskingMemberID();
-            return;
-        }
-
-        TypeOfBoat type = console.askForTypeOfBoat();
-        double length = console.askForBoatLength();
-
-        register.addNewBoat(memberID, type, length);
     }
 
     private void deleteBoat() {
-        console.informAboutChoice(7);
-        console.printMembersID(register.membersList());
+        if (logged || logIn()) {
+            console.informAboutChoice(7);
+            console.printMembersID(register.membersList());
 
-        int memberID;
-        try {
-            memberID = console.askForMemberID();
-        } catch (InputMismatchException error) {
-            console.printErrorWhileAskingMemberID();
-            return;
+            int memberID;
+            try {
+                memberID = console.askForMemberID();
+            } catch (InputMismatchException error) {
+                console.printErrorWhileAskingMemberID();
+                return;
+            }
+
+            if (!register.containsMemberID(memberID)) {
+                console.printErrorWhileAskingMemberID();
+                return;
+            }
+
+            Member member = register.getMember(memberID);
+
+            for (Boat boat : member.getListOfBoats())
+                console.printBoatInformations(memberID, boat);
+
+            int boatID;
+            try {
+                boatID = console.askForBoatID();
+            } catch (InputMismatchException error) {
+                console.printErrorWhileAskingBoatID();
+                return;
+            }
+
+            if (member.getBoat(boatID) == null) {
+                console.printErrorWhileAskingBoatID();
+                return;
+            }
+
+            register.removeBoat(memberID, boatID);
         }
-
-        if (!register.containsMemberID(memberID)) {
-            console.printErrorWhileAskingMemberID();
-            return;
-        }
-
-        Member member = register.getMember(memberID);
-
-        for (Boat boat : member.getListOfBoats())
-            console.printBoatInformations(memberID, boat);
-
-        int boatID;
-        try {
-            boatID = console.askForBoatID();
-        } catch (InputMismatchException error){
-            console.printErrorWhileAskingBoatID();
-            return;
-        }
-
-        if (member.getBoat(boatID)==null) {
-            console.printErrorWhileAskingBoatID();
-            return;
-        }
-
-        register.removeBoat(memberID, boatID);
     }
 
     private void updateBoatInformations() {
-        console.informAboutChoice(8);
-        console.printMembersID(register.membersList());
+        if (logged || logIn()) {
+            console.informAboutChoice(8);
+            console.printMembersID(register.membersList());
 
-        int memberID;
-        try {
-            memberID = console.askForMemberID();
-        } catch (InputMismatchException error) {
-            console.printErrorWhileAskingMemberID();
-            return;
-        }
+            int memberID;
+            try {
+                memberID = console.askForMemberID();
+            } catch (InputMismatchException error) {
+                console.printErrorWhileAskingMemberID();
+                return;
+            }
 
-        if (!register.containsMemberID(memberID)) {
-            console.printErrorWhileAskingMemberID();
-            return;
-        }
+            if (!register.containsMemberID(memberID)) {
+                console.printErrorWhileAskingMemberID();
+                return;
+            }
 
-        Member member = register.getMember(memberID);
+            Member member = register.getMember(memberID);
 
-        for (Boat boat : member.getListOfBoats())
+            for (Boat boat : member.getListOfBoats())
+                console.printBoatInformations(memberID, boat);
+
+            int boatID;
+            try {
+                boatID = console.askForBoatID();
+            } catch (InputMismatchException error) {
+                console.printErrorWhileAskingBoatID();
+                return;
+            }
+
+            if (member.getBoat(boatID) == null) {
+                console.printErrorWhileAskingBoatID();
+                return;
+            }
+
+            TypeOfBoat type = console.askForTypeOfBoat();
+            double length = console.askForBoatLength();
+
+            Boat boat = register.getMember(memberID).getBoat(boatID);
+            register.removeBoat(memberID, boatID);
             console.printBoatInformations(memberID, boat);
+            boat.setLength(length);
+            boat.setTypeOfBoat(type);
+            register.getMember(memberID).addBoat(boat);
+        }
+    }
 
-        int boatID;
-        try {
-            boatID = console.askForBoatID();
-        } catch (InputMismatchException error){
-            console.printErrorWhileAskingBoatID();
-            return;
+    private void computeASearch() {
+        boolean criteria = true;
+        int choice;
+        ArrayList<Member> listAsked = (ArrayList<Member>) register.membersList();
+        console.informAboutChoice(9);
+        while (criteria) {
+            choice=console.askForSearch();
+
+            if (choice==1) {
+                String pattern = console.askForSearchingAboutPatternsInName();
+                listAsked.retainAll(register.searchAboutPatternsInName(pattern));
+            }
+
+            if (choice==2) {
+                int year = console.askForSearchingAboutYearOfBirth();
+                listAsked.retainAll(register.searchAboutYearOfBirth(year));
+            }
+
+            if (choice==3) {
+                int month = console.askForSearchingAboutMonthOfBirth();
+                listAsked.retainAll(register.searchAboutMonthOfBirth(month));
+            }
+
+            if (choice==4) {
+                int age = console.askForSearchingAboutAge();
+                listAsked.retainAll(register.searchAboutAge(age));
+            }
+
+            if (choice==5) {
+                TypeOfBoat type = console.askForTypeOfBoat();
+                listAsked.retainAll(register.searchAboutTypeOfBoatsOwned(type));
+            }
+
+            criteria = console.askForAnOtherCriteria();
         }
 
-        if (member.getBoat(boatID)==null) {
-            console.printErrorWhileAskingBoatID();
-            return;
-        }
-
-        TypeOfBoat type = console.askForTypeOfBoat();
-        double length = console.askForBoatLength();
-
-        Boat boat = register.getMember(memberID).getBoat(boatID);
-        register.removeBoat(memberID, boatID);
-        console.printBoatInformations(memberID, boat);
-        boat.setLength(length);
-        boat.setTypeOfBoat(type);
-        register.getMember(memberID).addBoat(boat);
+        console.searchingResults();
+        console.printCompactList(listAsked);
     }
 
     private void loadData() {
@@ -257,6 +324,21 @@ public class User {
             backup.saveRegisterIntoFile(register);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private boolean logIn() {
+        int ID = console.askIDForAuthentification();
+        String password = console.askPassword();
+
+        if (users.containsKey(ID) && users.get(ID).equals(password)) {
+            logged = true;
+            console.authSuccess(true);
+            return true;
+        }
+        else {
+            console.authSuccess(false);
+            return false;
         }
     }
 }

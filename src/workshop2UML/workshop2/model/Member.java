@@ -1,14 +1,16 @@
 package workshop2UML.workshop2.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.LinkedList;
 
-// TODO : Insert checks about data when we add/remove something
-
 public class Member {
     private String Name;
     private String PersonalNumber;
+    private Date dateOfBirth;
     private int MemberId;
     private LinkedList<Boat> listOfBoats;
 
@@ -18,6 +20,20 @@ public class Member {
         PersonalNumber = personalNumber;
         MemberId = memberId;
         listOfBoats = new LinkedList<>();
+
+        try {
+            String[] format = personalNumber.split("-");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd");
+            dateFormat.setLenient(false);
+            this.dateOfBirth = dateFormat.parse(format[0]);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.out.println("Error while parsing the personnal number !");
+        }
+        catch (NullPointerException n) {
+            n.printStackTrace();
+            throw new NullPointerException("Error while parsing the personnal number !");
+        }
     }
 
 
@@ -82,6 +98,9 @@ public class Member {
             return false;
     }
 
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
 
     @Override
     public boolean equals(Object o) {
