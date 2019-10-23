@@ -9,6 +9,8 @@ import workshop2UML.workshop2.view.FileBackup;
 
 import java.io.IOException;
 import java.security.KeyStore;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 
@@ -59,6 +61,8 @@ public class User {
                 case 7: deleteBoat();
                     break;
                 case 8: updateBoatInformations();
+                    break;
+                case 9: computeASearch();
                     break;
                 case 0: console.informAboutChoice(0);
                     break;
@@ -265,6 +269,46 @@ public class User {
             boat.setTypeOfBoat(type);
             register.getMember(memberID).addBoat(boat);
         }
+    }
+
+    private void computeASearch() {
+        boolean criteria = true;
+        int choice;
+        ArrayList<Member> listAsked = (ArrayList<Member>) register.membersList();
+        console.informAboutChoice(9);
+        while (criteria) {
+            choice=console.askForSearch();
+
+            if (choice==1) {
+                String pattern = console.askForSearchingAboutPatternsInName();
+                listAsked.retainAll(register.searchAboutPatternsInName(pattern));
+            }
+
+            if (choice==2) {
+                int year = console.askForSearchingAboutYearOfBirth();
+                listAsked.retainAll(register.searchAboutYearOfBirth(year));
+            }
+
+            if (choice==3) {
+                int month = console.askForSearchingAboutMonthOfBirth();
+                listAsked.retainAll(register.searchAboutMonthOfBirth(month));
+            }
+
+            if (choice==4) {
+                int age = console.askForSearchingAboutAge();
+                listAsked.retainAll(register.searchAboutAge(age));
+            }
+
+            if (choice==5) {
+                TypeOfBoat type = console.askForTypeOfBoat();
+                listAsked.retainAll(register.searchAboutTypeOfBoatsOwned(type));
+            }
+
+            criteria = console.askForAnOtherCriteria();
+        }
+
+        console.searchingResults();
+        console.printCompactList(listAsked);
     }
 
     private void loadData() {

@@ -94,7 +94,7 @@ public class Console {
 
 
     public void informAboutChoice(int choice) {
-        if (choice<0 || choice>8)
+        if (choice<0 || choice>10)
             throw new IllegalCallerException("No choice made yet !");
         System.out.println("\n");
         switch (choice) {
@@ -113,6 +113,10 @@ public class Console {
             case 7: System.out.println("You choose to remove a registered boat.");
                 break;
             case 8: System.out.println("You choose to update informations about a specific boat.");
+                break;
+            case 9: System.out.println("You choose to do a search in our database.");
+                break;
+            case 10: System.out.println("You want to add an other criteria to your search.");
                 break;
             default: System.out.println("You are exiting the system. Goodbye !");
                 return;
@@ -252,5 +256,92 @@ public class Console {
             System.out.println("Authentification succeeded !");
         else
             System.out.println("Authentification failed !");
+    }
+
+    public int askForSearch() {
+        System.out.println("For searching a name pattern, press 1");
+        System.out.println("For searching about a specific year of birth, press 2");
+        System.out.println("For searching about a specific month of birth, press 3");
+        System.out.println("For searching the members older than a specific age, press 4");
+        System.out.println("For searching all the owners of a specific type of boat, press 5");
+        int search=-1;
+
+        while (search<1 || search>5) {
+            search = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        return search;
+    }
+
+    public String askForSearchingAboutPatternsInName() {
+        System.out.println("You want to search a certain pattern in members' name. Please type your pattern :");
+        return scanner.nextLine();
+    }
+
+    public int askForSearchingAboutYearOfBirth() {
+        System.out.println("You want to search about a specific year of birth. Please type the year :");
+        int year=-1;
+
+        while (year<1900 || year>2100) {
+            year = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        return year;
+    }
+
+    public int askForSearchingAboutMonthOfBirth() {
+        System.out.println("You want to search about a specific month of birth. Please type the month :");
+        int month=-1;
+
+        while (month<1 || month>12) {
+            month = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        return month;
+    }
+
+    public int askForSearchingAboutAge() {
+        System.out.println("You want to search all the members older than a certain age. Please type the age :");
+        int age=-1;
+
+        while (age<0 || age>119) { // Impossible to register someone who was born before 1900
+            age = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        return age;
+    }
+
+    public TypeOfBoat askForSearchingAboutTypeOfBoat() {
+        System.out.println("You want to search all the owners of a specific type of boat.");
+        System.out.println("Press 1 for a Sailboat, 2 for a Motorsailer, 3 for a Kayak/Canoe or 4 for the others " +
+                "types");
+        int type=-1;
+
+        while (type<1 || type>4) {
+            type = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        switch (type) {
+            case 1: return TypeOfBoat.SAILBOAT;
+            case 2: return TypeOfBoat.MOTORSAILER;
+            case 3: return TypeOfBoat.KAYAK;
+            case 4: return TypeOfBoat.OTHER;
+            default: return null;
+        }
+    }
+
+    public boolean askForAnOtherCriteria() {
+        System.out.println("Do you want to add an other criteria for your search ?");
+        String answer = scanner.nextLine();
+        return answer.toLowerCase().equals("yes") || answer.toLowerCase().equals("ja");
+    }
+
+    public void searchingResults() {
+        System.out.println("Here are the results of your search in our database :");
     }
 }

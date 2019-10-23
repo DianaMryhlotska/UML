@@ -108,7 +108,7 @@ public class Register {
         return numberOfBoats-1;
     }
 
-    public Member searchAboutPersonnalNumber(String personalNumber) {
+    public Member searchAboutPersonalNumber(String personalNumber) {
         for (Member member : register.values()) {
             if (member.getPersonalNumber().equals(personalNumber))
                 return member;
@@ -137,7 +137,7 @@ public class Register {
         ArrayList<Member> results = new ArrayList<>();
 
         for (Member member : register.values()) {
-            if (member.getDateOfBirth().getMonth() == month)
+            if (member.getDateOfBirth().getMonth()+1 == month)
                 results.add(member);
         }
 
@@ -161,7 +161,7 @@ public class Register {
         ArrayList<Member> results = new ArrayList<>();
 
         for (Member member : register.values()) {
-            if (member.getName().contains(pattern))
+            if (member.getName().toLowerCase().contains(pattern.toLowerCase()))
                 results.add(member);
         }
 
