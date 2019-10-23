@@ -107,6 +107,10 @@ public class Register {
         return numberOfBoats-1;
     }
 
+    /*public List<Member> returnSearchAboutPersonnalNumber() {
+
+    }*/
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

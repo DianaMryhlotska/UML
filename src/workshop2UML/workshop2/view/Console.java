@@ -8,10 +8,9 @@ import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.interfaces.RSAKey;
 import java.text.DecimalFormat;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Console {
     private Scanner scanner;
@@ -137,15 +136,35 @@ public class Console {
     public String askForPersonalNumber() {
         String personalNumber;
 
-        do {
-            System.out.println("Please enter the personal number (12 digits)");
-            personalNumber = scanner.nextLine();
-        } while (personalNumber.length()!=12);
+        boolean lengthIsValid=false;
+        boolean formatIsValid=false;
+        boolean dateIsValid = false;
 
-        /*if (personalNumber.equals("0"))
-            return null;
-        else*/
-            return personalNumber;
+        do {
+            System.out.println("Please enter the personal number (10 digits : format YYMMDD-XXXX)");
+            personalNumber = scanner.nextLine();
+
+            lengthIsValid = (personalNumber.length()==11);
+
+            // if statement are needed to avoid any NullPointerException (for length=1 for example)
+            if (lengthIsValid) {
+                String[] format = personalNumber.split("-");
+                formatIsValid = (format.length==2 && format[0].length()==6 && format[1].length()==4);
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd");
+
+                Date date;
+                try {
+                    dateFormat.setLenient(false);
+                    date = dateFormat.parse(format[0]);
+                    dateIsValid = true;
+                } catch (ParseException e) {
+                    dateIsValid = false;
+                }
+            }
+        } while (!lengthIsValid || !formatIsValid || !dateIsValid);
+
+        return personalNumber;
     }
 
     public int askForMemberID() throws InputMismatchException{
