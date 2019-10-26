@@ -300,7 +300,7 @@ public class User {
             }
 
             if (choice==5) {
-                TypeOfBoat type = console.askForTypeOfBoat();
+                TypeOfBoat type = console.askForSearchingAboutTypeOfBoat();
                 listAsked.retainAll(register.searchAboutTypeOfBoatsOwned(type));
             }
 
