@@ -117,8 +117,11 @@ public class Register {
     }
 
     public List<Member> searchAboutYearOfBirth (int year) {
-        if (year<1900 || year>2100)
+        if (!(year>1900 && year<2050) && !(year>=0 && year<=100))
             throw new IllegalArgumentException("Date is not valid !");
+
+        if (year>1900) // Convert the format of the year
+            year=year%100;
 
         ArrayList<Member> results = new ArrayList<>();
 

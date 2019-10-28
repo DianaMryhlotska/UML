@@ -119,22 +119,15 @@ public class Console {
             case 10: System.out.println("You want to add an other criteria to your search.");
                 break;
             default: System.out.println("You are exiting the system. Goodbye !");
-                return;
+                break;
         }
 
     }
 
 
-    // TODO : Insert a "return" choice for all of the methods above (with '0' ?)
-
     public String askForName() {
         System.out.println("Please enter the name");
-        String name = scanner.nextLine();
-
-        if (name.equals("0"))
-            return null;
-        else
-            return name;
+        return scanner.nextLine();
     }
 
     public String askForPersonalNumber() {
@@ -171,20 +164,14 @@ public class Console {
         return personalNumber;
     }
 
-    public int askForMemberID() throws InputMismatchException{
+    public int askForMemberID(){
         System.out.println("Please enter the member ID");
-
-        int ID = scanner.nextInt();
-        scanner.nextLine();
-        return ID;
+        return scanValidInt();
     }
 
-    public int askForBoatID() throws InputMismatchException{
+    public int askForBoatID(){
         System.out.println("Please enter the boat ID");
-
-        int ID = scanner.nextInt();
-        scanner.nextLine();
-        return ID;
+        return scanValidInt();
     }
 
     public TypeOfBoat askForTypeOfBoat() {
@@ -196,17 +183,10 @@ public class Console {
         int type=-1;
 
         while (type<1 || type>4) {
-            type = scanner.nextInt();
-            scanner.nextLine();
+            type = scanValidInt();
         }
 
-        switch (type) {
-            case 1: return TypeOfBoat.SAILBOAT;
-            case 2: return TypeOfBoat.MOTORSAILER;
-            case 3: return TypeOfBoat.KAYAK;
-            case 4: return TypeOfBoat.OTHER;
-            default: return null;
-        }
+        return getTypeOfBoat(type);
     }
 
     public double askForBoatLength() {
@@ -246,16 +226,16 @@ public class Console {
     }
 
     public boolean askForCreateAUser() {
-        System.out.println("Do you want to create a password for this member and give him access rights ?");
+        System.out.println("Do you want to create a password for this member and give him access rights ? (Type \"yes\" or \"ja\")");
         String answer = scanner.nextLine();
         return answer.toLowerCase().equals("yes") || answer.toLowerCase().equals("ja");
     }
 
     public void authSuccess(boolean success) {
         if (success)
-            System.out.println("Authentification succeeded !");
+            System.out.println("Authentification successful !");
         else
-            System.out.println("Authentification failed !");
+            System.out.println("Authentification has failed !");
     }
 
     public int askForSearch() {
@@ -267,8 +247,7 @@ public class Console {
         int search=-1;
 
         while (search<1 || search>5) {
-            search = scanner.nextInt();
-            scanner.nextLine();
+            search = scanValidInt();
         }
 
         return search;
@@ -283,9 +262,8 @@ public class Console {
         System.out.println("You want to search about a specific year of birth. Please type the year :");
         int year=-1;
 
-        while (year<1900 || year>2100) {
-            year = scanner.nextInt();
-            scanner.nextLine();
+        while (year<1900 || year>2050) {
+            year = scanValidInt();
         }
 
         return year;
@@ -296,8 +274,7 @@ public class Console {
         int month=-1;
 
         while (month<1 || month>12) {
-            month = scanner.nextInt();
-            scanner.nextLine();
+            month = scanValidInt();
         }
 
         return month;
@@ -308,8 +285,7 @@ public class Console {
         int age=-1;
 
         while (age<0 || age>119) { // Impossible to register someone who was born before 1900
-            age = scanner.nextInt();
-            scanner.nextLine();
+            age = scanValidInt();
         }
 
         return age;
@@ -322,10 +298,43 @@ public class Console {
         int type=-1;
 
         while (type<1 || type>4) {
-            type = scanner.nextInt();
-            scanner.nextLine();
+            type = scanValidInt();
         }
 
+        return getTypeOfBoat(type);
+    }
+
+    public boolean askForAnOtherCriteria() {
+        System.out.println("Do you want to add an other criteria for your search ? (Type \"yes\" or \"ja\")");
+        String answer = scanner.nextLine();
+        return answer.toLowerCase().equals("yes") || answer.toLowerCase().equals("ja");
+    }
+
+    public void searchingResults() {
+        System.out.println("Here are the results of your search in our database :");
+    }
+
+
+
+    // ---- Generalization for data validation
+
+    private int scanValidInt() {
+        boolean validInt=false;
+        int ID=-1;
+
+        do {
+            try {
+                ID = scanner.nextInt();
+                scanner.nextLine();
+                validInt = true;
+            } catch (InputMismatchException e) {
+                validInt = false;
+            }
+        } while (!validInt);
+        return ID;
+    }
+
+    private TypeOfBoat getTypeOfBoat(int type) {
         switch (type) {
             case 1: return TypeOfBoat.SAILBOAT;
             case 2: return TypeOfBoat.MOTORSAILER;
@@ -333,15 +342,5 @@ public class Console {
             case 4: return TypeOfBoat.OTHER;
             default: return null;
         }
-    }
-
-    public boolean askForAnOtherCriteria() {
-        System.out.println("Do you want to add an other criteria for your search ?");
-        String answer = scanner.nextLine();
-        return answer.toLowerCase().equals("yes") || answer.toLowerCase().equals("ja");
-    }
-
-    public void searchingResults() {
-        System.out.println("Here are the results of your search in our database :");
     }
 }
