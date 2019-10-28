@@ -222,7 +222,13 @@ public class Console {
 
     public String askPassword() {
         System.out.println("Please enter the password :");
-        return scanner.nextLine();
+        String password = scanner.nextLine();
+        while (password.equals("-XXXXX-")) { // "-XXXXX- is the input chose in the backup file for members with no
+            // special access on the system (see FileBackup.class)
+            System.out.println("Incorrect password - please choose another one");
+            password = scanner.nextLine();
+        }
+        return password;
     }
 
     public boolean askForCreateAUser() {

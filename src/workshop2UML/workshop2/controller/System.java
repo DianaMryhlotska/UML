@@ -1,9 +1,6 @@
 package workshop2UML.workshop2.controller;
 
-import workshop2UML.workshop2.model.Boat;
-import workshop2UML.workshop2.model.Member;
-import workshop2UML.workshop2.model.Register;
-import workshop2UML.workshop2.model.TypeOfBoat;
+import workshop2UML.workshop2.model.*;
 import workshop2UML.workshop2.view.Console;
 import workshop2UML.workshop2.view.FileBackup;
 
@@ -17,20 +14,18 @@ import java.util.InputMismatchException;
 // TODO : Encrypt all the passwords
 // TODO : Export encrypted passwords in the save file (if the user want it)
 
-public class User {
+public class System {
     private Console console;
     private Register register;
     private FileBackup backup;
     private boolean logged;
-    private HashMap<Integer, String> users;
+    private Users users;
 
-    public User(Console console, Register register) {
+    public System(Console console, Register register) {
         this.console = console;
         this.register = register;
-        this.users = new HashMap<>();
+        this.users = new Users();
         this.logged = false;
-
-        users.put(0, "root");
 
         try {
             this.backup = new FileBackup();
@@ -100,7 +95,7 @@ public class User {
 
             if (console.askForCreateAUser()) {
                 String password = console.askPassword();
-                users.put(ID, password);
+                users.addAccess(ID, password);
             }
         }
     }
@@ -313,7 +308,7 @@ public class User {
 
     private void loadData() {
         try {
-            backup.loadRegisterFromFile(register);
+            backup.loadRegisterFromFile(register, users);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -321,7 +316,7 @@ public class User {
 
     private void saveData() {
         try {
-            backup.saveRegisterIntoFile(register);
+            backup.saveRegisterIntoFile(register, users);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -331,7 +326,7 @@ public class User {
         int ID = console.askIDForAuthentification();
         String password = console.askPassword();
 
-        if (users.containsKey(ID) && users.get(ID).equals(password)) {
+        if (users.userExist(ID) && users.getUser(ID).equals(password)) {
             logged = true;
             console.authSuccess(true);
             return true;
