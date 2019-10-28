@@ -1,5 +1,6 @@
 package workshop2UML.workshop2.model;
 
+import java.text.ParseException;
 import java.time.Instant;
 import java.util.*;
 
@@ -26,7 +27,7 @@ public class Register {
         return false;
     }
 
-    public int createMember(String name, String personalNum){
+    public int createMember(String name, String personalNum) throws ParseException {
         Member member = new Member(name, personalNum, numberOfMembers);
 
         if (register.containsValue(member))
