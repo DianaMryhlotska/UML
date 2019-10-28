@@ -15,7 +15,7 @@ public class Member {
     private LinkedList<Boat> listOfBoats;
 
 
-    public Member(String name, String personalNumber, int memberId) {
+    public Member (String name, String personalNumber, int memberId) {
         Name = name;
         PersonalNumber = personalNumber;
         MemberId = memberId;

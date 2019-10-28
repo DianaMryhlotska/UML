@@ -6,6 +6,7 @@ import workshop2UML.workshop2.view.FileBackup;
 
 import java.io.IOException;
 import java.security.KeyStore;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -91,7 +92,13 @@ public class System {
                 return;
             }
 
-            int ID = register.createMember(name, personalNumber);
+            int ID = 0;
+
+            try {
+                ID = register.createMember(name, personalNumber);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             if (console.askForCreateAUser()) {
                 String password = console.askPassword();

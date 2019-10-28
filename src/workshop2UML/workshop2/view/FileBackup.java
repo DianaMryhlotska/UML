@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class FileBackup {
@@ -49,27 +50,31 @@ public class FileBackup {
         while (loader.hasNext()) {
             String data = loader.nextLine();
 
-            String[] memberInfo = data.split("\t");
-            if (memberInfo.length!=4 && memberInfo.length!=5)
-                throw new IOException("Data error about members !");
+            try {
+                String[] memberInfo = data.split("\t");
+                if (memberInfo.length != 4 && memberInfo.length != 5)
+                    throw new IOException("Data error about members !");
 
-            int memberID = register.createMember(memberInfo[1], memberInfo[2]);
+                int memberID = register.createMember(memberInfo[1], memberInfo[2]);
 
-            if (!memberInfo[3].equals("-XXXXX-"))
-                users.addAccess(memberID, memberInfo[3]);
+                if (!memberInfo[3].equals("-XXXXX-"))
+                    users.addAccess(memberID, memberInfo[3]);
 
-            if (memberInfo.length==5) {
-                String[] boats = memberInfo[4].split(" // ");
+                if (memberInfo.length == 5) {
+                    String[] boats = memberInfo[4].split(" // ");
 
-                for (String boat : boats) {
-                    String[] boatInfo = boat.split("/");
+                    for (String boat : boats) {
+                        String[] boatInfo = boat.split("/");
 
-                    if (boatInfo.length != 3)
-                        throw new IOException("Data error about boats !");
+                        if (boatInfo.length != 3)
+                            throw new IOException("Data error about boats !");
 
-                    register.addNewBoat(memberID, TypeOfBoat.findTypeOfBoatFromString(boatInfo[2]),
-                            Double.parseDouble(boatInfo[1]));
+                        register.addNewBoat(memberID, TypeOfBoat.findTypeOfBoatFromString(boatInfo[2]),
+                                Double.parseDouble(boatInfo[1]));
+                    }
                 }
+            } catch (IOException | ParseException ioe) {
+                // In case of some errors in the data, we just skip the line...
             }
         }
     }
