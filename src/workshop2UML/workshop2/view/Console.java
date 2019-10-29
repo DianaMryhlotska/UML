@@ -14,10 +14,14 @@ import java.util.*;
 
 public class Console {
     private Scanner scanner;
+    private DecimalFormat decimalFormat;
+    private SimpleDateFormat dateFormat;
 
     public Console() {
         this.scanner = new Scanner(System.in);
         scanner.useLocale(Locale.US);
+        this.decimalFormat = new DecimalFormat("#.00");
+        this.dateFormat = new SimpleDateFormat("yyMMdd");
     }
 
     public void printMembersID (List<Member> membersList) {
@@ -50,14 +54,14 @@ public class Console {
 
     public void printBoatInformations (Integer memberID, Boat boat) {
         System.out.println("Boat " + boat.getID() + "(owns by member " + memberID + ") : " + boat.getTypeOfBoat() +
-                ", length=" + new DecimalFormat("#.00").format(boat.getLength()) );
+                ", length=" + decimalFormat.format(boat.getLength()) );
     }
 
     public int printMenu () {
         int choice=-1;
-        System.out.println("\n");
         boolean reminder=false;
 
+        System.out.println("\n");
         System.out.println("Welcome in the Jolly Pirate Club ! Please select an action");
         System.out.println("\tShow all the registered members : press 1");
         System.out.println("\tAdd a member (registered users only) : press 2");
@@ -72,7 +76,7 @@ public class Console {
 
             while (choice<0 || choice>9) {
                 if (reminder)
-                    System.out.println("You have to type your choice between 1 and 10 !");
+                    System.out.println("You have to type your choice between 0 and 9 !");
                 reminder = true;
 
                 if (!scanner.hasNextInt()) {
@@ -109,6 +113,7 @@ public class Console {
     public void informAboutChoice(int choice) {
         if (choice<0 || choice>10)
             throw new IllegalCallerException("No choice made yet !");
+
         System.out.println("\n");
         switch (choice) {
             case 1: System.out.println("You choose to see the members list.");
@@ -165,12 +170,12 @@ public class Console {
 
             lengthIsValid = (personalNumber.length()==11);
 
+            // We want to check if the date is valid before return the personal number, indeed a personal number with
+            // a correct format but a wrong date is not allowed.
             // if statement are needed to avoid any NullPointerException (for length=1 for example)
             if (lengthIsValid) {
                 String[] format = personalNumber.split("-");
                 formatIsValid = (format.length==2 && format[0].length()==6 && format[1].length()==4);
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd");
 
                 Date date;
                 try {

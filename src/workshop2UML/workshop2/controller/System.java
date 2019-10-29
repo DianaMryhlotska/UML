@@ -134,7 +134,13 @@ public class System {
             return;
         }
 
-        Member member = register.getMember(ID);
+        Member member;
+        try {
+            member = register.getMember(ID);
+        } catch (IllegalArgumentException e) {
+            console.printErrorWhileAskingMemberID();
+            return;
+        }
         console.printMemberInformations(member);
     }
 
@@ -151,7 +157,13 @@ public class System {
                 return;
             }
 
-            Member member = register.getMember(ID);
+            Member member;
+            try {
+                member = register.getMember(ID);
+            } catch (IllegalArgumentException e) {
+                console.printErrorWhileAskingMemberID();
+                return;
+            }
             console.printMemberInformations(member);
             String name = console.askForName();
             String personalNumber = console.askForPersonalNumber();
@@ -197,12 +209,13 @@ public class System {
                 return;
             }
 
-            if (!register.containsMemberID(memberID)) {
+            Member member;
+            try {
+                member = register.getMember(memberID);
+            } catch (IllegalArgumentException e) {
                 console.printErrorWhileAskingMemberID();
                 return;
             }
-
-            Member member = register.getMember(memberID);
 
             for (Boat boat : member.getListOfBoats())
                 console.printBoatInformations(memberID, boat);
@@ -237,12 +250,13 @@ public class System {
                 return;
             }
 
-            if (!register.containsMemberID(memberID)) {
+            Member member;
+            try {
+                member = register.getMember(memberID);
+            } catch (IllegalArgumentException e) {
                 console.printErrorWhileAskingMemberID();
                 return;
             }
-
-            Member member = register.getMember(memberID);
 
             for (Boat boat : member.getListOfBoats())
                 console.printBoatInformations(memberID, boat);

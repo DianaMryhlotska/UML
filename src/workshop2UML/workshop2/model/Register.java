@@ -54,9 +54,9 @@ public class Register {
         return listOfMember;
     }
 
-    public boolean changeMemberInformation (Integer memberID, String name, String personalNumber) {
+    public boolean changeMemberInformation (Integer memberID, String name, String personalNumber) throws IllegalArgumentException{
         if (!register.containsKey(memberID))
-            System.out.println("Member " + memberID + " does not exist !");
+            throw new IllegalArgumentException("Member " + memberID + " does not exist !");
 
         Member member = register.get(memberID);
 
@@ -69,14 +69,14 @@ public class Register {
         return (register.replace(memberID, member)!=null);
     }
 
-    public Member getMember (Integer memberID) {
+    public Member getMember (Integer memberID) throws IllegalArgumentException{
         if (!register.containsKey(memberID))
-            System.out.println("Member " + memberID + " does not exist !");
+            throw new IllegalArgumentException("Member " + memberID + " does not exist !");
 
         return register.get(memberID);
     }
 
-    public boolean addNewBoat (Integer memberID, TypeOfBoat type, double length) {
+    public boolean addNewBoat (Integer memberID, TypeOfBoat type, double length) throws IllegalArgumentException{
         if (!register.containsKey(memberID))
             throw new IllegalArgumentException("Member " + memberID + " does not exist yet !");
 
@@ -89,7 +89,7 @@ public class Register {
         return (register.replace(memberID, member)!=null);
     }
 
-    public boolean removeBoat (Integer memberID, Integer boatID) {
+    public boolean removeBoat (Integer memberID, Integer boatID) throws IllegalArgumentException{
         if (!register.containsKey(memberID))
             throw new IllegalArgumentException("Member " + memberID + " does not exist yet !");
 
@@ -117,7 +117,7 @@ public class Register {
         return null;
     }
 
-    public List<Member> searchAboutYearOfBirth (int year) {
+    public List<Member> searchAboutYearOfBirth (int year) throws IllegalArgumentException{
         if (!(year>1900 && year<2050) && !(year>=0 && year<=100))
             throw new IllegalArgumentException("Date is not valid !");
 
@@ -134,7 +134,7 @@ public class Register {
         return results;
     }
 
-    public List<Member> searchAboutMonthOfBirth (int month) {
+    public List<Member> searchAboutMonthOfBirth (int month) throws IllegalArgumentException{
         if (month<1 || month>12)
             throw new IllegalArgumentException("Date is not valid !");
 
