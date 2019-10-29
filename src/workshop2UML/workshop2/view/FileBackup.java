@@ -13,9 +13,13 @@ public class FileBackup {
     private File file;
     private FileWriter fileWriter;
     private FileReader fileReader;
+    private Scanner loader;
 
     public FileBackup() throws IOException {
         this.file = new File("data.txt");
+        this.fileWriter = new FileWriter(file, true);
+        this.fileReader = new FileReader(file);
+        this.loader = new Scanner(fileReader);
     }
 
     public void saveRegisterIntoFile(Register register, Users users) throws IOException {
@@ -23,8 +27,6 @@ public class FileBackup {
             System.out.println("Backup successfully created !");
         else
             System.out.println("Backup successfully updated !");
-
-        fileWriter = new FileWriter(file);
 
         for (Member member : register.membersList()) {
             fileWriter.write(member.getMemberId() + "\t" + member.getName() + "\t" + member.getPersonalNumber() + "\t");
@@ -46,9 +48,6 @@ public class FileBackup {
         if (!file.exists())
             return;
 
-        fileReader = new FileReader(file);
-
-        Scanner loader = new Scanner(fileReader);
         while (loader.hasNext()) {
             String data = loader.nextLine();
 
@@ -71,7 +70,7 @@ public class FileBackup {
                         if (boatInfo.length != 3)
                             throw new IOException("Data error about boats !");
 
-                        register.addNewBoat(memberID, TypeOfBoat.findTypeOfBoatFromString(boatInfo[2]),
+                        register.addNewBoat(memberID, findTypeOfBoatFromString(boatInfo[2]),
                                 Double.parseDouble(boatInfo[1]));
                     }
                 }
@@ -79,6 +78,19 @@ public class FileBackup {
                 System.out.println("Data line had a parsing error - skipped");
                 // In case of some errors in the data, we just skip the line...
             }
+        }
+    }
+
+    private TypeOfBoat findTypeOfBoatFromString(String string) {
+        switch (string) {
+            case "SAILBOAT":
+                return TypeOfBoat.SAILBOAT;
+            case "MOTORSAILER":
+                return TypeOfBoat.MOTORSAILER;
+            case "KAYAK":
+                return TypeOfBoat.KAYAK;
+            default:
+                return TypeOfBoat.OTHER;
         }
     }
 }

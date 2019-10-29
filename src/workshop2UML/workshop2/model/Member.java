@@ -15,7 +15,7 @@ public class Member {
     private LinkedList<Boat> listOfBoats;
 
 
-    public Member (String name, String personalNumber, int memberId) {
+    public Member (String name, String personalNumber, int memberId) throws ParseException {
         Name = name;
         PersonalNumber = personalNumber;
         MemberId = memberId;
@@ -28,7 +28,7 @@ public class Member {
             this.dateOfBirth = dateFormat.parse(format[0]);
         } catch (ParseException e) {
             e.printStackTrace();
-            System.out.println("Error while parsing the personnal number !");
+            throw new ParseException("Error while parsing the personnal number !", memberId);
         }
         catch (NullPointerException n) {
             n.printStackTrace();
