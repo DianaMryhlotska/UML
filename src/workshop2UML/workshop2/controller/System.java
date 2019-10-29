@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 
 // TODO : Encrypt all the passwords
-// TODO : Export encrypted passwords in the save file (if the user want it)
 
 public class System {
     private Console console;
@@ -330,6 +329,7 @@ public class System {
     }
 
     private boolean logIn() {
+        console.printMembersID(register.membersList());
         int ID = console.askIDForAuthentification();
         String password = console.askPassword();
 
