@@ -151,7 +151,7 @@ public class Register {
     public List<Member> searchAboutAge (int age) {
         ArrayList<Member> results = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -age); // TODO : Check
+        calendar.add(Calendar.YEAR, -age);
 
         for (Member member : register.values()) {
             if (member.getDateOfBirth().compareTo(calendar.getTime())<=0)
