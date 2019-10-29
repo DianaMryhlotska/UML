@@ -21,6 +21,8 @@ public class FileBackup {
     public void saveRegisterIntoFile(Register register, Users users) throws IOException {
         if (!file.exists())
             System.out.println("Backup successfully created !");
+        else
+            System.out.println("Backup successfully updated !");
 
         fileWriter = new FileWriter(file);
 
@@ -74,6 +76,7 @@ public class FileBackup {
                     }
                 }
             } catch (IOException | ParseException ioe) {
+                System.out.println("Data line had a parsing error - skipped");
                 // In case of some errors in the data, we just skip the line...
             }
         }

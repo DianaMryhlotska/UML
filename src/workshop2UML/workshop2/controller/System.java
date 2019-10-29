@@ -330,6 +330,7 @@ public class System {
     }
 
     private boolean logIn() {
+        console.printMembersID(register.membersList());
         int ID = console.askIDForAuthentification();
         String password = console.askPassword();
 

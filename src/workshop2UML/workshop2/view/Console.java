@@ -24,7 +24,6 @@ public class Console {
         for (Member member : membersList) {
             System.out.println("Member " + member.getMemberId() + "(" + member.getName() + ")");
         }
-        System.out.println("\n");
     }
 
     public void printCompactList (List<Member> membersList) {
@@ -57,18 +56,24 @@ public class Console {
     public int printMenu () {
         int choice=-1;
         System.out.println("\n");
+        boolean reminder=false;
+
+        System.out.println("Welcome in the Jolly Pirate Club ! Please select an action");
+        System.out.println("\tShow all the registered members : press 1");
+        System.out.println("\tAdd a member (registered users only) : press 2");
+        System.out.println("\tDelete a member (registered users only) : press 3");
+        System.out.println("\tSee informations about a member : press 4");
+        System.out.println("\tUpdate informations about a member (registered users only) : press 5");
+        System.out.println("\tRegister a new boat (registered users only) : press 6");
+        System.out.println("\tRemove a registered boat (registered users only) : press 7");
+        System.out.println("\tUpdate informations about a registered boat (registered users only) : press 8");
+        System.out.println("\tSearch a specific member : press 9");
+        System.out.println("\tPress 0 to exit");
+
             while (choice<0 || choice>9) {
-                System.out.println("Welcome in the Jolly Pirate Club ! Please select an action");
-                System.out.println("\tShow all the registered members : press 1");
-                System.out.println("\tAdd a member (registered users only) : press 2");
-                System.out.println("\tDelete a member (registered users only) : press 3");
-                System.out.println("\tSee informations about a member : press 4");
-                System.out.println("\tUpdate informations about a member (registered users only) : press 5");
-                System.out.println("\tRegister a new boat (registered users only) : press 6");
-                System.out.println("\tRemove a registered boat (registered users only) : press 7");
-                System.out.println("\tUpdate informations about a registered boat (registered users only) : press 8");
-                System.out.println("\tSearch a specific member : press 9");
-                System.out.println("\tPress 0 to exit");
+                if (reminder)
+                    System.out.println("You have to type your choice between 1 and 10 !");
+                reminder = true;
 
                 if (!scanner.hasNextInt()) {
                     scanner.nextLine();
@@ -76,16 +81,24 @@ public class Console {
 
                 choice = scanner.nextInt();
                 scanner.nextLine();
+
             }
             return choice;
     }
 
     public int printListMenu() {
         int choice=-1;
+        boolean reminder=false;
+
+        System.out.println("Please choose the format desired for the member list");
+        System.out.println("Show the compact list (without some informations) : press 1");
+        System.out.println(" Show the verbose list : press 2");
+
         while (choice<1 || choice>2) {
-            System.out.println("Please choose the format desired for the member list");
-            System.out.println("Show the compact list (without some informations) : press 1");
-            System.out.println(" Show the verbose list : press 2");
+            if (reminder)
+                System.out.println("You have to type your choice between 1 or 2 !");
+            reminder = true;
+
             choice = scanner.nextInt();
             scanner.nextLine();
         }
@@ -136,9 +149,18 @@ public class Console {
         boolean lengthIsValid=false;
         boolean formatIsValid=false;
         boolean dateIsValid = false;
+        boolean reminder=false;
+
+        System.out.println("Please enter the personal number (10 digits : format YYMMDD-XXXX)");
 
         do {
-            System.out.println("Please enter the personal number (10 digits : format YYMMDD-XXXX)");
+            if (reminder)
+                System.out.println("You have to type your personal number! The format is YYMMDD-XXXX, with YY the two" +
+                        " last digits of your year of birth, MM the digits matching with your month of birth, and DD " +
+                        "your day of birth. The four last characters are up to you, but don't forgot the \'-\' " +
+                        "before them.");
+            reminder = true;
+
             personalNumber = scanner.nextLine();
 
             lengthIsValid = (personalNumber.length()==11);
@@ -175,15 +197,21 @@ public class Console {
     }
 
     public TypeOfBoat askForTypeOfBoat() {
+        int type=-1;
+        boolean reminder=false;
+
         System.out.println("Please select the type of the boat :");
         System.out.println("For a Sailboat, press 1");
         System.out.println("For a Motorsailer, press 2");
         System.out.println("For a Kayak, press 3");
         System.out.println("For an other type, press 4");
-        int type=-1;
 
         while (type<1 || type>4) {
             type = scanValidInt();
+
+            if (reminder)
+                System.out.println("You have to type your choice between 1 and 4 !");
+            reminder = true;
         }
 
         return getTypeOfBoat(type);
@@ -196,6 +224,7 @@ public class Console {
             try {
                 length = Double.parseDouble(scanner.nextLine());
             } catch(NumberFormatException e){
+                System.out.println("Please type a number ! For the decimals, the format is XX.xx");
                 // Check if the nextLine is indeed a double. Unfortunately, scanner.hasNextDouble and scanner.nextDouble
                 // can't be used here...
             }
@@ -245,15 +274,21 @@ public class Console {
     }
 
     public int askForSearch() {
+        int search=-1;
+        boolean reminder = false;
+
         System.out.println("For searching a name pattern, press 1");
         System.out.println("For searching about a specific year of birth, press 2");
         System.out.println("For searching about a specific month of birth, press 3");
         System.out.println("For searching the members older than a specific age, press 4");
         System.out.println("For searching all the owners of a specific type of boat, press 5");
-        int search=-1;
 
         while (search<1 || search>5) {
             search = scanValidInt();
+
+            if (reminder)
+                System.out.println("You have to type your choice between 1 and 5 !");
+            reminder = true;
         }
 
         return search;
@@ -267,44 +302,67 @@ public class Console {
     public int askForSearchingAboutYearOfBirth() {
         System.out.println("You want to search about a specific year of birth. Please type the year :");
         int year=-1;
+        boolean reminder=false;
 
         while (year<1900 || year>2050) {
             year = scanValidInt();
+
+            if (reminder)
+                System.out.println("Please choose a valid year (between 1900 and 2050)");
+            reminder = true;
         }
 
         return year;
     }
 
     public int askForSearchingAboutMonthOfBirth() {
-        System.out.println("You want to search about a specific month of birth. Please type the month :");
         int month=-1;
+        boolean reminder=false;
+
+        System.out.println("You want to search about a specific month of birth. Please type the month :");
 
         while (month<1 || month>12) {
             month = scanValidInt();
+
+            if (reminder)
+                System.out.println("Please type the digit matching with the month you want.");
+            reminder = true;
         }
 
         return month;
     }
 
     public int askForSearchingAboutAge() {
-        System.out.println("You want to search all the members older than a certain age. Please type the age :");
         int age=-1;
+        boolean reminder=false;
+
+        System.out.println("You want to search all the members older than a certain age. Please type the age :");
 
         while (age<0 || age>119) { // Impossible to register someone who was born before 1900
             age = scanValidInt();
+
+            if (reminder)
+                System.out.println("Please type a valid age (between 0 and 119 years old).");
+            reminder = true;
         }
 
         return age;
     }
 
     public TypeOfBoat askForSearchingAboutTypeOfBoat() {
+        int type=-1;
+        boolean reminder=false;
+
         System.out.println("You want to search all the owners of a specific type of boat.");
         System.out.println("Press 1 for a Sailboat, 2 for a Motorsailer, 3 for a Kayak/Canoe or 4 for the others " +
                 "types");
-        int type=-1;
 
         while (type<1 || type>4) {
             type = scanValidInt();
+
+            if (reminder)
+                System.out.println("You have to type your choice between 1 and 4 !");
+            reminder = true;
         }
 
         return getTypeOfBoat(type);
@@ -334,6 +392,7 @@ public class Console {
                 scanner.nextLine();
                 validInt = true;
             } catch (InputMismatchException e) {
+                System.out.println("Number selected is slightly too large !");
                 validInt = false;
             }
         } while (!validInt);
