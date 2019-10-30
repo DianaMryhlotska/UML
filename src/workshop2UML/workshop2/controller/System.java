@@ -2,20 +2,19 @@ package workshop2UML.workshop2.controller;
 
 import workshop2UML.workshop2.model.*;
 import workshop2UML.workshop2.view.Console;
+import workshop2UML.workshop2.view.ConsoleMenu;
 import workshop2UML.workshop2.view.FileBackup;
 
 import java.io.IOException;
-import java.security.KeyStore;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.InputMismatchException;
 
 // TODO : Encrypt all the passwords
 
 public class System {
     private Console console;
+    private ConsoleMenu menu;
     private Register register;
     private FileBackup backup;
     private boolean logged;
@@ -23,6 +22,7 @@ public class System {
 
     public System(Console console, Register register) {
         this.console = console;
+        this.menu = new ConsoleMenu(console);
         this.register = register;
         this.users = new Users();
         this.logged = false;
@@ -37,34 +37,34 @@ public class System {
     public boolean startSystem() {
         loadData();
 
-        int choice;
+        ConsoleMenu.MenuChoices choice;
         do {
-            choice=console.printMenu();
+            choice=menu.printMenu();
             switch (choice) {
-                case 1: listMember();
+                case ListMemberMenu: listMember();
                     break;
-                case 2: addMember();
+                case AddMember: addMember();
                     break;
-                case 3: deleteMember();
+                case DeleteMember: deleteMember();
                     break;
-                case 4: seeInformationsAboutAMember();
+                case SeeMember: seeInformationsAboutAMember();
                     break;
-                case 5: updateMemberInformations();
+                case UpdateMember: updateMemberInformations();
                     break;
-                case 6: registerBoat();
+                case RegisterBoat: registerBoat();
                     break;
-                case 7: deleteBoat();
+                case RemoveBoat: deleteBoat();
                     break;
-                case 8: updateBoatInformations();
+                case UpdateBoat: updateBoatInformations();
                     break;
-                case 9: computeASearch();
+                case Search: computeASearch();
                     break;
-                case 0: console.informAboutChoice(0);
+                case Exit: console.informAboutChoice(0);
                     break;
                 default:
                     return false;
             }
-        } while (choice>=1 && choice<=9);
+        } while (choice != ConsoleMenu.MenuChoices.Exit);
 
         saveData();
         return true;
@@ -73,11 +73,15 @@ public class System {
 
     private void listMember() {
         console.informAboutChoice(1);
-        int choice = console.printListMenu();
-        if (choice==1)
-            console.printCompactList(register.membersList());
-        else
-            console.printVerboseList(register.membersList());
+        ConsoleMenu.MenuChoices choice = menu.printListMenu();
+
+        switch (choice) {
+            case CompactList: console.printCompactList(register.membersList());
+                break;
+            case VerboseList: console.printVerboseList(register.membersList());
+                break;
+            default: throw new IllegalArgumentException("Irrelevant choice !");
+        }
     }
 
     private void addMember() {
@@ -288,33 +292,33 @@ public class System {
 
     private void computeASearch() {
         boolean criteria = true;
-        int choice;
+        ConsoleMenu.MenuChoices choice;
         ArrayList<Member> listAsked = (ArrayList<Member>) register.membersList();
         console.informAboutChoice(9);
         while (criteria) {
-            choice=console.askForSearch();
+            choice=menu.askForSearch();
 
-            if (choice==1) {
+            if (choice== ConsoleMenu.MenuChoices.NameSearch) {
                 String pattern = console.askForSearchingAboutPatternsInName();
                 listAsked.retainAll(register.searchAboutPatternsInName(pattern));
             }
 
-            if (choice==2) {
+            if (choice== ConsoleMenu.MenuChoices.YearSearch) {
                 int year = console.askForSearchingAboutYearOfBirth();
                 listAsked.retainAll(register.searchAboutYearOfBirth(year));
             }
 
-            if (choice==3) {
+            if (choice== ConsoleMenu.MenuChoices.MonthSearch) {
                 int month = console.askForSearchingAboutMonthOfBirth();
                 listAsked.retainAll(register.searchAboutMonthOfBirth(month));
             }
 
-            if (choice==4) {
+            if (choice== ConsoleMenu.MenuChoices.AgeSearch) {
                 int age = console.askForSearchingAboutAge();
                 listAsked.retainAll(register.searchAboutAge(age));
             }
 
-            if (choice==5) {
+            if (choice== ConsoleMenu.MenuChoices.BoatTypeSearch) {
                 TypeOfBoat type = console.askForSearchingAboutTypeOfBoat();
                 listAsked.retainAll(register.searchAboutTypeOfBoatsOwned(type));
             }

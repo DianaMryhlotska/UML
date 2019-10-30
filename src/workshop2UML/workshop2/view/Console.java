@@ -57,59 +57,9 @@ public class Console {
                 ", length=" + decimalFormat.format(boat.getLength()) );
     }
 
-    public int printMenu () {
-        int choice=-1;
-        boolean reminder=false;
 
-        System.out.println("\n");
-        System.out.println("Welcome in the Jolly Pirate Club ! Please select an action");
-        System.out.println("\tShow all the registered members : press 1");
-        System.out.println("\tAdd a member (registered users only) : press 2");
-        System.out.println("\tDelete a member (registered users only) : press 3");
-        System.out.println("\tSee informations about a member : press 4");
-        System.out.println("\tUpdate informations about a member (registered users only) : press 5");
-        System.out.println("\tRegister a new boat (registered users only) : press 6");
-        System.out.println("\tRemove a registered boat (registered users only) : press 7");
-        System.out.println("\tUpdate informations about a registered boat (registered users only) : press 8");
-        System.out.println("\tSearch a specific member : press 9");
-        System.out.println("\tPress 0 to exit");
-
-            while (choice<0 || choice>9) {
-                if (reminder)
-                    System.out.println("You have to type your choice between 0 and 9 !");
-                reminder = true;
-
-                if (!scanner.hasNextInt()) {
-                    scanner.nextLine();
-                }
-
-                choice = scanner.nextInt();
-                scanner.nextLine();
-
-            }
-            return choice;
-    }
-
-    public int printListMenu() {
-        int choice=-1;
-        boolean reminder=false;
-
-        System.out.println("Please choose the format desired for the member list");
-        System.out.println("Show the compact list (without some informations) : press 1");
-        System.out.println(" Show the verbose list : press 2");
-
-        while (choice<1 || choice>2) {
-            if (reminder)
-                System.out.println("You have to type your choice between 1 or 2 !");
-            reminder = true;
-
-            choice = scanner.nextInt();
-            scanner.nextLine();
-        }
-        return choice;
-    }
-
-
+    // Not a hidden dependency, because this method doesn't imply anything for the program. Even if we call this
+    // method with a wrong number, or if we forget to call it, it's not a problem (just less user-friendly information)
     public void informAboutChoice(int choice) {
         if (choice<0 || choice>10)
             throw new IllegalCallerException("No choice made yet !");
@@ -193,12 +143,12 @@ public class Console {
 
     public int askForMemberID(){
         System.out.println("Please enter the member ID");
-        return scanValidInt();
+        return scanValidInt(scanner);
     }
 
     public int askForBoatID(){
         System.out.println("Please enter the boat ID");
-        return scanValidInt();
+        return scanValidInt(scanner);
     }
 
     public TypeOfBoat askForTypeOfBoat() {
@@ -212,11 +162,11 @@ public class Console {
         System.out.println("For an other type, press 4");
 
         while (type<1 || type>4) {
-            type = scanValidInt();
-
             if (reminder)
                 System.out.println("You have to type your choice between 1 and 4 !");
             reminder = true;
+
+            type = scanValidInt(scanner);
         }
 
         return getTypeOfBoat(type);
@@ -278,27 +228,6 @@ public class Console {
             System.out.println("Authentification has failed !");
     }
 
-    public int askForSearch() {
-        int search=-1;
-        boolean reminder = false;
-
-        System.out.println("For searching a name pattern, press 1");
-        System.out.println("For searching about a specific year of birth, press 2");
-        System.out.println("For searching about a specific month of birth, press 3");
-        System.out.println("For searching the members older than a specific age, press 4");
-        System.out.println("For searching all the owners of a specific type of boat, press 5");
-
-        while (search<1 || search>5) {
-            search = scanValidInt();
-
-            if (reminder)
-                System.out.println("You have to type your choice between 1 and 5 !");
-            reminder = true;
-        }
-
-        return search;
-    }
-
     public String askForSearchingAboutPatternsInName() {
         System.out.println("You want to search a certain pattern in members' name. Please type your pattern :");
         return scanner.nextLine();
@@ -310,11 +239,11 @@ public class Console {
         boolean reminder=false;
 
         while (year<1900 || year>2050) {
-            year = scanValidInt();
-
             if (reminder)
                 System.out.println("Please choose a valid year (between 1900 and 2050)");
             reminder = true;
+
+            year = scanValidInt(scanner);
         }
 
         return year;
@@ -327,11 +256,11 @@ public class Console {
         System.out.println("You want to search about a specific month of birth. Please type the month :");
 
         while (month<1 || month>12) {
-            month = scanValidInt();
-
             if (reminder)
                 System.out.println("Please type the digit matching with the month you want.");
             reminder = true;
+
+            month = scanValidInt(scanner);
         }
 
         return month;
@@ -344,11 +273,11 @@ public class Console {
         System.out.println("You want to search all the members older than a certain age. Please type the age :");
 
         while (age<0 || age>119) { // Impossible to register someone who was born before 1900
-            age = scanValidInt();
-
             if (reminder)
                 System.out.println("Please type a valid age (between 0 and 119 years old).");
             reminder = true;
+
+            age = scanValidInt(scanner);
         }
 
         return age;
@@ -363,11 +292,11 @@ public class Console {
                 "types");
 
         while (type<1 || type>4) {
-            type = scanValidInt();
-
             if (reminder)
                 System.out.println("You have to type your choice between 1 and 4 !");
             reminder = true;
+
+            type = scanValidInt(scanner);
         }
 
         return getTypeOfBoat(type);
@@ -383,13 +312,20 @@ public class Console {
         System.out.println("Here are the results of your search in our database :");
     }
 
+    public Scanner getScanner() {
+        return scanner;
+    }
 
 
     // ---- Generalization for data validation
 
-    private int scanValidInt() {
+    static int scanValidInt(Scanner scanner) {
         boolean validInt=false;
         int ID=-1;
+
+        if (!scanner.hasNextInt()) {
+            scanner.nextLine();
+        }
 
         do {
             try {

@@ -17,7 +17,6 @@ public class FileBackup {
 
     public FileBackup() throws IOException {
         this.file = new File("data.txt");
-        this.fileWriter = new FileWriter(file, true);
         this.fileReader = new FileReader(file);
         this.loader = new Scanner(fileReader);
     }
@@ -27,6 +26,9 @@ public class FileBackup {
             System.out.println("Backup successfully created !");
         else
             System.out.println("Backup successfully updated !");
+
+        // We want to erase the old file !
+        this.fileWriter = new FileWriter(file, false);
 
         for (Member member : register.membersList()) {
             fileWriter.write(member.getMemberId() + "\t" + member.getName() + "\t" + member.getPersonalNumber() + "\t");
