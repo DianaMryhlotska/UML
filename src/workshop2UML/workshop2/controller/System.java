@@ -59,7 +59,7 @@ public class System {
                     break;
                 case Search: computeASearch();
                     break;
-                case Exit: console.informAboutChoice(0);
+                case Exit: console.informAboutChoice(ConsoleMenu.MenuChoices.Exit);
                     break;
                 default:
                     return false;
@@ -72,7 +72,7 @@ public class System {
 
 
     private void listMember() {
-        console.informAboutChoice(1);
+        console.informAboutChoice(ConsoleMenu.MenuChoices.ListMemberMenu);
         ConsoleMenu.MenuChoices choice = menu.printListMenu();
 
         switch (choice) {
@@ -86,7 +86,7 @@ public class System {
 
     private void addMember() {
         if (logged || logIn()) {
-            console.informAboutChoice(2);
+            console.informAboutChoice(ConsoleMenu.MenuChoices.AddMember);
             String name = console.askForName();
 
             String personalNumber = console.askForPersonalNumber();
@@ -112,7 +112,7 @@ public class System {
 
     private void deleteMember() {
         if (logged || logIn()) {
-            console.informAboutChoice(3);
+            console.informAboutChoice(ConsoleMenu.MenuChoices.DeleteMember);
             console.printMembersID(register.membersList());
 
             int ID;
@@ -127,7 +127,7 @@ public class System {
     }
 
     private void seeInformationsAboutAMember() {
-        console.informAboutChoice(4);
+        console.informAboutChoice(ConsoleMenu.MenuChoices.SeeMember);
         console.printMembersID(register.membersList());
 
         int ID;
@@ -150,7 +150,7 @@ public class System {
 
     private void updateMemberInformations() {
         if (logged || logIn()) {
-            console.informAboutChoice(5);
+            console.informAboutChoice(ConsoleMenu.MenuChoices.UpdateMember);
             console.printMembersID(register.membersList());
 
             int ID;
@@ -177,7 +177,7 @@ public class System {
 
     private void registerBoat() {
         if (logged || logIn()) {
-            console.informAboutChoice(6);
+            console.informAboutChoice(ConsoleMenu.MenuChoices.RegisterBoat);
             console.printMembersID(register.membersList());
 
             int memberID;
@@ -202,7 +202,7 @@ public class System {
 
     private void deleteBoat() {
         if (logged || logIn()) {
-            console.informAboutChoice(7);
+            console.informAboutChoice(ConsoleMenu.MenuChoices.RemoveBoat);
             console.printMembersID(register.membersList());
 
             int memberID;
@@ -243,7 +243,7 @@ public class System {
 
     private void updateBoatInformations() {
         if (logged || logIn()) {
-            console.informAboutChoice(8);
+            console.informAboutChoice(ConsoleMenu.MenuChoices.UpdateBoat);
             console.printMembersID(register.membersList());
 
             int memberID;
@@ -294,7 +294,7 @@ public class System {
         boolean criteria = true;
         ConsoleMenu.MenuChoices choice;
         ArrayList<Member> listAsked = (ArrayList<Member>) register.membersList();
-        console.informAboutChoice(9);
+        console.informAboutChoice(ConsoleMenu.MenuChoices.Search);
         while (criteria) {
             choice=menu.askForSearch();
 

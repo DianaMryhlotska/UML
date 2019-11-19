@@ -58,33 +58,31 @@ public class Console {
     }
 
 
-    // Not a hidden dependency, because this method doesn't imply anything for the program. Even if we call this
-    // method with a wrong number, or if we forget to call it, it's not a problem (just less user-friendly information)
-    public void informAboutChoice(int choice) {
-        if (choice<0 || choice>10)
+    public void informAboutChoice(ConsoleMenu.MenuChoices choice) {
+        if (choice.equals(ConsoleMenu.MenuChoices.INVALID))
             throw new IllegalCallerException("No choice made yet !");
 
         System.out.println("\n");
         switch (choice) {
-            case 1: System.out.println("You choose to see the members list.");
+            case ListMemberMenu: System.out.println("You choose to see the members list.");
                 break;
-            case 2: System.out.println("You choose to add a member.");
+            case AddMember: System.out.println("You choose to add a member.");
                 break;
-            case 3: System.out.println("You choose to delete a member.");
+            case DeleteMember: System.out.println("You choose to delete a member.");
                 break;
-            case 4: System.out.println("You choose to see informations about a specific member.");
+            case SeeMember: System.out.println("You choose to see informations about a specific member.");
                 break;
-            case 5: System.out.println("You choose to update informations about a specific member.");
+            case UpdateMember: System.out.println("You choose to update informations about a specific member.");
                 break;
-            case 6: System.out.println("You choose to register a new boat.");
+            case RegisterBoat: System.out.println("You choose to register a new boat.");
                 break;
-            case 7: System.out.println("You choose to remove a registered boat.");
+            case RemoveBoat: System.out.println("You choose to remove a registered boat.");
                 break;
-            case 8: System.out.println("You choose to update informations about a specific boat.");
+            case UpdateBoat: System.out.println("You choose to update informations about a specific boat.");
                 break;
-            case 9: System.out.println("You choose to do a search in our database.");
+            case Search: System.out.println("You choose to do a search in our database.");
                 break;
-            case 10: System.out.println("You want to add an other criteria to your search.");
+            case AddCriteriaForSearch: System.out.println("You want to add an other criteria to your search.");
                 break;
             default: System.out.println("You are exiting the system. Goodbye !");
                 break;
