@@ -20,6 +20,7 @@ public class ConsoleMenu {
         Exit(0),
         CompactList(11),
         VerboseList(12),
+        AddCriteriaForSearch(20),
         NameSearch(21),
         YearSearch(22),
         MonthSearch(23),
